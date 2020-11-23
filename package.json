@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@rollup/plugin-multi-entry": "^4.0.0",
+    "rollup": "^2.35.1",
+    "rollup-plugin-dts": "^2.0.1"
+  }
+}
