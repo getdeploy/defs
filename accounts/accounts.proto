@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package accounts;
+
+option go_package = "github.com/getdeploy/accounts";
+
+import "google/protobuf/timestamp.proto";
+
+enum OAuthProvider {
+  OAUTH_PROVIDER_UNSPECIFIED = 0;
+  OAUTH_PROVIDER_GITHUB = 1;
+  OAUTH_PROVIDER_BETA = 2;
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
+  string real_name = 3;
+
+  // Full size avatar
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message OAuthLoginRequest {
+  OAuthProvider provider = 1;
+  string redirect_url = 2;
+}
+
+message OAuthLoginResponse {
+  string url = 1;
+}
+
+message OAuthExchangeRequest {
+  string auth_code = 1;
+}
+
+message OAuthExchangeResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message TokenExchangeRequest {
+  string refresh_token = 1;
+}
+
+message TokenExchangeResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+service Accounts {
+  rpc OAuthLogin(OAuthLoginRequest) returns (OAuthLoginResponse);
+  rpc OAuthExchange(OAuthExchangeRequest) returns (OAuthExchangeResponse);
+  rpc TokenExchange(TokenExchangeRequest) returns (TokenExchangeResponse);
+}
