@@ -7,17 +7,15 @@ option go_package = "github.com/getdeploy/accounts";
 import "google/protobuf/timestamp.proto";
 
 enum OAuthProvider {
-  OAUTH_PROVIDER_UNSPECIFIED = 0;
-  OAUTH_PROVIDER_GITHUB = 1;
-  OAUTH_PROVIDER_BETA = 2;
+  O_AUTH_PROVIDER_UNSPECIFIED = 0;
+  O_AUTH_PROVIDER_GITHUB = 1;
+  O_AUTH_PROVIDER_BETA = 2;
 }
 
 message Account {
   string id = 1;
   string email = 2;
   string real_name = 3;
-
-  // Full size avatar
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
 }
