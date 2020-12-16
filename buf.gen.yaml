@@ -1,0 +1,24 @@
+version: v1beta1
+plugins:
+  - name: go
+    out: .
+    opt: paths=source_relative
+  - name: go-grpc
+    out: .
+    opt: paths=source_relative
+  - name: js
+    out: grpcweb
+    opt: import_style=commonjs
+  - name: grpc-web
+    out: grpcweb
+    opt: import_style=commonjs+dts,mode=grpcwebtext
+  - name: js
+    out: node
+    opt: import_style=commonjs
+  - name: grpc
+    out: node
+    opt: grpc_js
+    path: grpc_tools_node_protoc_plugin
+  - name: ts
+    out: node
+    opt: grpc_ts
