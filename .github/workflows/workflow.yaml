@@ -9,50 +9,46 @@ on:
 
 jobs:
   lint_check:
-    name: Lint and Check
+    name: "Lint and Check"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install buf
+      - name: "Install buf"
         run: |
-        BIN="/usr/local/bin" && \
-        VERSION="0.33.0" && \
-        BINARY_NAME="buf" && \
-          curl -sSL \
-            "https://github.com/bufbuild/buf/releases/download/v${VERSION}/${BINARY_NAME}-$(uname -s)-$(uname -m)" \
-            -o "${BIN}/${BINARY_NAME}" && \
-          chmod +x "${BIN}/${BINARY_NAME}"
-      - name: Run checks
-        run: |
-          make check
-
+          BIN="/usr/local/bin" && \ VERSION="0.33.0" && \ BINARY_NAME="buf" && \
+            curl -sSL \
+              "https://github.com/bufbuild/buf/releases/download/v${VERSION}/${BINARY_NAME}-$(uname -s)-$(uname -m)" \
+              -o "${BIN}/${BINARY_NAME}" && \
+            chmod +x "${BIN}/${BINARY_NAME}"
+      - name: "Run checks"
+        run: "make check\n"
   publish:
-    needs: test
+    if: "github.head_ref == null"
     name: Build
-    if: github.head_ref == null # head_ref won't be null for Pull Request builds
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - id: semver_tag
-        uses: anothrNick/github-tag-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - env:
           DEFAULT_BUMP: minor
-      - name: Publish Node NPM package
-        env:
-          VERSION: ${{ steps.semver_tag.outputs.new_tag }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        id: semver_tag
+        uses: anothrNick/github-tag-action@master
+      - env:
+          NPM_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          VERSION: "${{ steps.semver_tag.outputs.new_tag }}"
+        name: "Publish Node NPM package"
+        run: |
+          npm --no-git-tag-version version ${VERSION}
+          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+          npm publish
         working-directory: ./node
+      - env:
+          NPM_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          VERSION: "${{ steps.semver_tag.outputs.new_tag }}"
+        name: "Publish GRPCWeb NPM package"
         run: |
           npm --no-git-tag-version version ${VERSION}
           echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
-      - name: Publish GRPCWeb NPM package
-        env:
-          VERSION: ${{ steps.semver_tag.outputs.new_tag }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ./grpcweb
-        run: |
-          npm --no-git-tag-version version ${VERSION}
-          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
-          npm publish
