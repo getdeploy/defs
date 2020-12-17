@@ -1,13 +1,10 @@
 {
   "name": "@getdeploy/node",
-  "version": "2.0.0",
+  "version": "0.1.0",
   "description": "NodeJS clients for getdeploy.com",
   "main": "index.js",
   "types": "index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "github.com/getdeploy/proto"
-  },
+  "repository":  "https://github.com/getdeploy/proto",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

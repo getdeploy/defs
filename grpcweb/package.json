@@ -1,12 +1,10 @@
 {
   "name": "@getdeploy/grpcweb",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "NodeJS clients for getdeploy.com",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "github.com/getdeploy/proto"
-  },
+  "types": "index.d.ts",
+  "repository":  "https://github.com/getdeploy/proto",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
