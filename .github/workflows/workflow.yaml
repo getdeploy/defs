@@ -14,14 +14,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: "Install buf"
+      - env:
+          BIN: /usr/local/bin
+          VERSION: "0.33.0"
+          BINARY_NAME: "buf"
         run: |
-          BIN="/usr/local/bin" && \ VERSION="0.33.0" && \ BINARY_NAME="buf" && \
-            curl -sSL \
-              "https://github.com/bufbuild/buf/releases/download/v${VERSION}/${BINARY_NAME}-$(uname -s)-$(uname -m)" \
-              -o "${BIN}/${BINARY_NAME}" && \
-            chmod +x "${BIN}/${BINARY_NAME}"
+          curl -sSL "https://github.com/bufbuild/buf/releases/download/v${VERSION}/${BINARY_NAME}-$(uname -s)-$(uname -m)" -o "${BIN}/${BINARY_NAME}"
+          chmod +x "${BIN}/${BINARY_NAME}"
       - name: "Run checks"
-        run: "make check\n"
+        run: "make check"
   publish:
     if: "github.head_ref == null"
     name: Build
