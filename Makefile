@@ -1,12 +1,18 @@
 .PHONY: all
 
+ROLLUP := ./node_modules/rollup/dist/bin/rollup
+
 all: breaking_change format lint proto
 
+check: breaking_change lint
+
 proto:
-	find . -name "*.proto" | xargs -L 1 protoc \
-	  --go_out=plugins=grpc,paths=source_relative:. \
-	  --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:. \
-	  --js_out=import_style=commonjs:.
+	buf generate
+	npm i
+	$(ROLLUP) node/*/*.js -o node/index.js -p multi-entry
+	$(ROLLUP) node/*/*.d.ts -o node/index.d.ts -p multi-entry -p dts
+	$(ROLLUP) grpcweb/*/*.js -o grpcweb/index.js -p multi-entry
+	$(ROLLUP) grpcweb/*/*.d.ts -o grpcweb/index.d.ts -p multi-entry -p dts
 
 breaking_change:
 	buf check breaking --against .git#branch=main
