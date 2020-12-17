@@ -25,7 +25,7 @@ jobs:
       - env:
           DEFAULT_BUMP: minor
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          PRERELEASE_SUFFIX: ""
+          RELEASE_BRANCHES: "main"
         id: semver_tag
         uses: anothrNick/github-tag-action@1.33.0
       - env:
