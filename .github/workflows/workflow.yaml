@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: "Install buf"
-      - env:
+        env:
           BIN: /usr/local/bin
           VERSION: "0.33.0"
           BINARY_NAME: "buf"
