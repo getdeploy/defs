@@ -71,240 +71,80 @@ proto.accounts.AccountsPromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.accounts.OAuthLoginRequest,
- *   !proto.accounts.OAuthLoginResponse>}
+ *   !proto.accounts.CreateRequest,
+ *   !proto.accounts.CreateResponse>}
  */
-const methodDescriptor_Accounts_OAuthLogin = new grpc.web.MethodDescriptor(
-  '/accounts.Accounts/OAuthLogin',
+const methodDescriptor_Accounts_Create = new grpc.web.MethodDescriptor(
+  '/accounts.Accounts/Create',
   grpc.web.MethodType.UNARY,
-  proto.accounts.OAuthLoginRequest,
-  proto.accounts.OAuthLoginResponse,
+  proto.accounts.CreateRequest,
+  proto.accounts.CreateResponse,
   /**
-   * @param {!proto.accounts.OAuthLoginRequest} request
+   * @param {!proto.accounts.CreateRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.accounts.OAuthLoginResponse.deserializeBinary
+  proto.accounts.CreateResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.accounts.OAuthLoginRequest,
- *   !proto.accounts.OAuthLoginResponse>}
+ *   !proto.accounts.CreateRequest,
+ *   !proto.accounts.CreateResponse>}
  */
-const methodInfo_Accounts_OAuthLogin = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.accounts.OAuthLoginResponse,
+const methodInfo_Accounts_Create = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.accounts.CreateResponse,
   /**
-   * @param {!proto.accounts.OAuthLoginRequest} request
+   * @param {!proto.accounts.CreateRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.accounts.OAuthLoginResponse.deserializeBinary
+  proto.accounts.CreateResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.accounts.OAuthLoginRequest} request The
+ * @param {!proto.accounts.CreateRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.accounts.OAuthLoginResponse)}
+ * @param {function(?grpc.web.Error, ?proto.accounts.CreateResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.accounts.OAuthLoginResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.accounts.CreateResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.accounts.AccountsClient.prototype.oAuthLogin =
+proto.accounts.AccountsClient.prototype.create =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/accounts.Accounts/OAuthLogin',
+      '/accounts.Accounts/Create',
       request,
       metadata || {},
-      methodDescriptor_Accounts_OAuthLogin,
+      methodDescriptor_Accounts_Create,
       callback);
 };
 
 
 /**
- * @param {!proto.accounts.OAuthLoginRequest} request The
+ * @param {!proto.accounts.CreateRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.accounts.OAuthLoginResponse>}
+ * @return {!Promise<!proto.accounts.CreateResponse>}
  *     A native promise that resolves to the response
  */
-proto.accounts.AccountsPromiseClient.prototype.oAuthLogin =
+proto.accounts.AccountsPromiseClient.prototype.create =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/accounts.Accounts/OAuthLogin',
+      '/accounts.Accounts/Create',
       request,
       metadata || {},
-      methodDescriptor_Accounts_OAuthLogin);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.accounts.OAuthExchangeRequest,
- *   !proto.accounts.OAuthExchangeResponse>}
- */
-const methodDescriptor_Accounts_OAuthExchange = new grpc.web.MethodDescriptor(
-  '/accounts.Accounts/OAuthExchange',
-  grpc.web.MethodType.UNARY,
-  proto.accounts.OAuthExchangeRequest,
-  proto.accounts.OAuthExchangeResponse,
-  /**
-   * @param {!proto.accounts.OAuthExchangeRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.accounts.OAuthExchangeResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.accounts.OAuthExchangeRequest,
- *   !proto.accounts.OAuthExchangeResponse>}
- */
-const methodInfo_Accounts_OAuthExchange = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.accounts.OAuthExchangeResponse,
-  /**
-   * @param {!proto.accounts.OAuthExchangeRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.accounts.OAuthExchangeResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.accounts.OAuthExchangeRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.accounts.OAuthExchangeResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.accounts.OAuthExchangeResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.accounts.AccountsClient.prototype.oAuthExchange =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/accounts.Accounts/OAuthExchange',
-      request,
-      metadata || {},
-      methodDescriptor_Accounts_OAuthExchange,
-      callback);
-};
-
-
-/**
- * @param {!proto.accounts.OAuthExchangeRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.accounts.OAuthExchangeResponse>}
- *     A native promise that resolves to the response
- */
-proto.accounts.AccountsPromiseClient.prototype.oAuthExchange =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/accounts.Accounts/OAuthExchange',
-      request,
-      metadata || {},
-      methodDescriptor_Accounts_OAuthExchange);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.accounts.TokenExchangeRequest,
- *   !proto.accounts.TokenExchangeResponse>}
- */
-const methodDescriptor_Accounts_TokenExchange = new grpc.web.MethodDescriptor(
-  '/accounts.Accounts/TokenExchange',
-  grpc.web.MethodType.UNARY,
-  proto.accounts.TokenExchangeRequest,
-  proto.accounts.TokenExchangeResponse,
-  /**
-   * @param {!proto.accounts.TokenExchangeRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.accounts.TokenExchangeResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.accounts.TokenExchangeRequest,
- *   !proto.accounts.TokenExchangeResponse>}
- */
-const methodInfo_Accounts_TokenExchange = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.accounts.TokenExchangeResponse,
-  /**
-   * @param {!proto.accounts.TokenExchangeRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.accounts.TokenExchangeResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.accounts.TokenExchangeRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.accounts.TokenExchangeResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.accounts.TokenExchangeResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.accounts.AccountsClient.prototype.tokenExchange =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/accounts.Accounts/TokenExchange',
-      request,
-      metadata || {},
-      methodDescriptor_Accounts_TokenExchange,
-      callback);
-};
-
-
-/**
- * @param {!proto.accounts.TokenExchangeRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.accounts.TokenExchangeResponse>}
- *     A native promise that resolves to the response
- */
-proto.accounts.AccountsPromiseClient.prototype.tokenExchange =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/accounts.Accounts/TokenExchange',
-      request,
-      metadata || {},
-      methodDescriptor_Accounts_TokenExchange);
+      methodDescriptor_Accounts_Create);
 };
 
 

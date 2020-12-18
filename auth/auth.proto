@@ -3,3 +3,47 @@ syntax = "proto3";
 package auth;
 
 option go_package = "github.com/getdeploy/auth";
+
+enum OAuthProvider {
+  O_AUTH_PROVIDER_UNSPECIFIED = 0;
+  O_AUTH_PROVIDER_GITHUB = 1;
+  O_AUTH_PROVIDER_BETA = 2;
+}
+
+message OAuthLoginRequest {
+  OAuthProvider provider = 1;
+  string redirect_url = 2;
+}
+
+message OAuthLoginResponse {
+  string url = 1;
+}
+
+message OAuthExchangeRequest {
+  string auth_code = 1;
+}
+
+message OAuthExchangeResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message TokenExchangeRequest {
+  string refresh_token = 1;
+}
+
+message TokenExchangeResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message CreateRequest {}
+
+message CreateResponse {}
+
+service Auth {
+  rpc OAuthLogin(OAuthLoginRequest) returns (OAuthLoginResponse);
+  rpc OAuthExchange(OAuthExchangeRequest) returns (OAuthExchangeResponse);
+  rpc TokenExchange(TokenExchangeRequest) returns (TokenExchangeResponse);
+  rpc Create(CreateRequest) returns (CreateResponse);
+}

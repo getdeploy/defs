@@ -17,9 +17,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountsClient interface {
-	OAuthLogin(ctx context.Context, in *OAuthLoginRequest, opts ...grpc.CallOption) (*OAuthLoginResponse, error)
-	OAuthExchange(ctx context.Context, in *OAuthExchangeRequest, opts ...grpc.CallOption) (*OAuthExchangeResponse, error)
-	TokenExchange(ctx context.Context, in *TokenExchangeRequest, opts ...grpc.CallOption) (*TokenExchangeResponse, error)
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type accountsClient struct {
@@ -30,27 +28,9 @@ func NewAccountsClient(cc grpc.ClientConnInterface) AccountsClient {
 	return &accountsClient{cc}
 }
 
-func (c *accountsClient) OAuthLogin(ctx context.Context, in *OAuthLoginRequest, opts ...grpc.CallOption) (*OAuthLoginResponse, error) {
-	out := new(OAuthLoginResponse)
-	err := c.cc.Invoke(ctx, "/accounts.Accounts/OAuthLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountsClient) OAuthExchange(ctx context.Context, in *OAuthExchangeRequest, opts ...grpc.CallOption) (*OAuthExchangeResponse, error) {
-	out := new(OAuthExchangeResponse)
-	err := c.cc.Invoke(ctx, "/accounts.Accounts/OAuthExchange", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountsClient) TokenExchange(ctx context.Context, in *TokenExchangeRequest, opts ...grpc.CallOption) (*TokenExchangeResponse, error) {
-	out := new(TokenExchangeResponse)
-	err := c.cc.Invoke(ctx, "/accounts.Accounts/TokenExchange", in, out, opts...)
+func (c *accountsClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, "/accounts.Accounts/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -61,9 +41,7 @@ func (c *accountsClient) TokenExchange(ctx context.Context, in *TokenExchangeReq
 // All implementations must embed UnimplementedAccountsServer
 // for forward compatibility
 type AccountsServer interface {
-	OAuthLogin(context.Context, *OAuthLoginRequest) (*OAuthLoginResponse, error)
-	OAuthExchange(context.Context, *OAuthExchangeRequest) (*OAuthExchangeResponse, error)
-	TokenExchange(context.Context, *TokenExchangeRequest) (*TokenExchangeResponse, error)
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedAccountsServer()
 }
 
@@ -71,14 +49,8 @@ type AccountsServer interface {
 type UnimplementedAccountsServer struct {
 }
 
-func (UnimplementedAccountsServer) OAuthLogin(context.Context, *OAuthLoginRequest) (*OAuthLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OAuthLogin not implemented")
-}
-func (UnimplementedAccountsServer) OAuthExchange(context.Context, *OAuthExchangeRequest) (*OAuthExchangeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OAuthExchange not implemented")
-}
-func (UnimplementedAccountsServer) TokenExchange(context.Context, *TokenExchangeRequest) (*TokenExchangeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TokenExchange not implemented")
+func (UnimplementedAccountsServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedAccountsServer) mustEmbedUnimplementedAccountsServer() {}
 
@@ -93,56 +65,20 @@ func RegisterAccountsServer(s grpc.ServiceRegistrar, srv AccountsServer) {
 	s.RegisterService(&_Accounts_serviceDesc, srv)
 }
 
-func _Accounts_OAuthLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OAuthLoginRequest)
+func _Accounts_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AccountsServer).OAuthLogin(ctx, in)
+		return srv.(AccountsServer).Create(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/accounts.Accounts/OAuthLogin",
+		FullMethod: "/accounts.Accounts/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).OAuthLogin(ctx, req.(*OAuthLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Accounts_OAuthExchange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OAuthExchangeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountsServer).OAuthExchange(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/accounts.Accounts/OAuthExchange",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).OAuthExchange(ctx, req.(*OAuthExchangeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Accounts_TokenExchange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TokenExchangeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountsServer).TokenExchange(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/accounts.Accounts/TokenExchange",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).TokenExchange(ctx, req.(*TokenExchangeRequest))
+		return srv.(AccountsServer).Create(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -152,16 +88,8 @@ var _Accounts_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*AccountsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OAuthLogin",
-			Handler:    _Accounts_OAuthLogin_Handler,
-		},
-		{
-			MethodName: "OAuthExchange",
-			Handler:    _Accounts_OAuthExchange_Handler,
-		},
-		{
-			MethodName: "TokenExchange",
-			Handler:    _Accounts_TokenExchange_Handler,
+			MethodName: "Create",
+			Handler:    _Accounts_Create_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
