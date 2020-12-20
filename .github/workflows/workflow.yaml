@@ -16,33 +16,35 @@ jobs:
       - name: "Run checks"
         run: "make check"
   publish:
-    if: "github.head_ref == null"
     name: Build
     needs: lint_check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - env:
+
+      - uses: anothrNick/github-tag-action@1.33.0
+        env:
           DEFAULT_BUMP: minor
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           RELEASE_BRANCHES: "main"
         id: semver_tag
-        uses: anothrNick/github-tag-action@1.33.0
+
       - env:
           NPM_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           VERSION: "${{ steps.semver_tag.outputs.new_tag }}"
         name: "Publish Node NPM package"
         run: |
           npm --no-git-tag-version version ${VERSION}
-          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
-        working-directory: ./node
+        working-directory: ./clients/node
+
       - env:
           NPM_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           VERSION: "${{ steps.semver_tag.outputs.new_tag }}"
         name: "Publish GRPCWeb NPM package"
         run: |
           npm --no-git-tag-version version ${VERSION}
-          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
-        working-directory: ./grpcweb
+        working-directory: ./clients/grpcweb
