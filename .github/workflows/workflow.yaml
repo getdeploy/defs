@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
       - uses: anothrNick/github-tag-action@1.33.0
         env:
           DEFAULT_BUMP: minor
@@ -35,7 +34,7 @@ jobs:
         name: "Publish Node NPM package"
         run: |
           npm --no-git-tag-version version ${VERSION}
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
         working-directory: ./clients/node
 
@@ -45,6 +44,6 @@ jobs:
         name: "Publish GRPCWeb NPM package"
         run: |
           npm --no-git-tag-version version ${VERSION}
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > .npmrc
           npm publish
         working-directory: ./clients/grpcweb
