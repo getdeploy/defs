@@ -27,6 +27,28 @@ function deserialize_accounts_CreateResponse(buffer_arg) {
   return accounts_accounts_pb.CreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_accounts_GetRequest(arg) {
+  if (!(arg instanceof accounts_accounts_pb.GetRequest)) {
+    throw new Error('Expected argument of type accounts.GetRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_accounts_GetRequest(buffer_arg) {
+  return accounts_accounts_pb.GetRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_accounts_GetResponse(arg) {
+  if (!(arg instanceof accounts_accounts_pb.GetResponse)) {
+    throw new Error('Expected argument of type accounts.GetResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_accounts_GetResponse(buffer_arg) {
+  return accounts_accounts_pb.GetResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var AccountsService = exports.AccountsService = {
   create: {
@@ -39,6 +61,17 @@ var AccountsService = exports.AccountsService = {
     requestDeserialize: deserialize_accounts_CreateRequest,
     responseSerialize: serialize_accounts_CreateResponse,
     responseDeserialize: deserialize_accounts_CreateResponse,
+  },
+  get: {
+    path: '/accounts.Accounts/Get',
+    requestStream: false,
+    responseStream: false,
+    requestType: accounts_accounts_pb.GetRequest,
+    responseType: accounts_accounts_pb.GetResponse,
+    requestSerialize: serialize_accounts_GetRequest,
+    requestDeserialize: deserialize_accounts_GetRequest,
+    responseSerialize: serialize_accounts_GetResponse,
+    responseDeserialize: deserialize_accounts_GetResponse,
   },
 };
 

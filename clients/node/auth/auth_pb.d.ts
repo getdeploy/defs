@@ -6,47 +6,47 @@
 
 import * as jspb from "google-protobuf";
 
-export class OAuthLoginRequest extends jspb.Message { 
+export class OAuthURLRequest extends jspb.Message { 
     getProvider(): OAuthProvider;
-    setProvider(value: OAuthProvider): OAuthLoginRequest;
+    setProvider(value: OAuthProvider): OAuthURLRequest;
 
     getRedirectUrl(): string;
-    setRedirectUrl(value: string): OAuthLoginRequest;
+    setRedirectUrl(value: string): OAuthURLRequest;
 
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): OAuthLoginRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: OAuthLoginRequest): OAuthLoginRequest.AsObject;
+    toObject(includeInstance?: boolean): OAuthURLRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: OAuthURLRequest): OAuthURLRequest.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: OAuthLoginRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): OAuthLoginRequest;
-    static deserializeBinaryFromReader(message: OAuthLoginRequest, reader: jspb.BinaryReader): OAuthLoginRequest;
+    static serializeBinaryToWriter(message: OAuthURLRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): OAuthURLRequest;
+    static deserializeBinaryFromReader(message: OAuthURLRequest, reader: jspb.BinaryReader): OAuthURLRequest;
 }
 
-export namespace OAuthLoginRequest {
+export namespace OAuthURLRequest {
     export type AsObject = {
         provider: OAuthProvider,
         redirectUrl: string,
     }
 }
 
-export class OAuthLoginResponse extends jspb.Message { 
+export class OAuthURLResponse extends jspb.Message { 
     getUrl(): string;
-    setUrl(value: string): OAuthLoginResponse;
+    setUrl(value: string): OAuthURLResponse;
 
 
     serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): OAuthLoginResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: OAuthLoginResponse): OAuthLoginResponse.AsObject;
+    toObject(includeInstance?: boolean): OAuthURLResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: OAuthURLResponse): OAuthURLResponse.AsObject;
     static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
     static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: OAuthLoginResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): OAuthLoginResponse;
-    static deserializeBinaryFromReader(message: OAuthLoginResponse, reader: jspb.BinaryReader): OAuthLoginResponse;
+    static serializeBinaryToWriter(message: OAuthURLResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): OAuthURLResponse;
+    static deserializeBinaryFromReader(message: OAuthURLResponse, reader: jspb.BinaryReader): OAuthURLResponse;
 }
 
-export namespace OAuthLoginResponse {
+export namespace OAuthURLResponse {
     export type AsObject = {
         url: string,
     }
@@ -74,11 +74,11 @@ export namespace OAuthExchangeRequest {
 }
 
 export class OAuthExchangeResponse extends jspb.Message { 
-    getAccessToken(): string;
-    setAccessToken(value: string): OAuthExchangeResponse;
 
-    getRefreshToken(): string;
-    setRefreshToken(value: string): OAuthExchangeResponse;
+    hasTokens(): boolean;
+    clearTokens(): void;
+    getTokens(): Tokens | undefined;
+    setTokens(value?: Tokens): OAuthExchangeResponse;
 
 
     serializeBinary(): Uint8Array;
@@ -93,8 +93,7 @@ export class OAuthExchangeResponse extends jspb.Message {
 
 export namespace OAuthExchangeResponse {
     export type AsObject = {
-        accessToken: string,
-        refreshToken: string,
+        tokens?: Tokens.AsObject,
     }
 }
 
@@ -120,11 +119,11 @@ export namespace TokenExchangeRequest {
 }
 
 export class TokenExchangeResponse extends jspb.Message { 
-    getAccessToken(): string;
-    setAccessToken(value: string): TokenExchangeResponse;
 
-    getRefreshToken(): string;
-    setRefreshToken(value: string): TokenExchangeResponse;
+    hasTokens(): boolean;
+    clearTokens(): void;
+    getTokens(): Tokens | undefined;
+    setTokens(value?: Tokens): TokenExchangeResponse;
 
 
     serializeBinary(): Uint8Array;
@@ -139,47 +138,36 @@ export class TokenExchangeResponse extends jspb.Message {
 
 export namespace TokenExchangeResponse {
     export type AsObject = {
+        tokens?: Tokens.AsObject,
+    }
+}
+
+export class Tokens extends jspb.Message { 
+    getAccessToken(): string;
+    setAccessToken(value: string): Tokens;
+
+    getRefreshToken(): string;
+    setRefreshToken(value: string): Tokens;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): Tokens.AsObject;
+    static toObject(includeInstance: boolean, msg: Tokens): Tokens.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: Tokens, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): Tokens;
+    static deserializeBinaryFromReader(message: Tokens, reader: jspb.BinaryReader): Tokens;
+}
+
+export namespace Tokens {
+    export type AsObject = {
         accessToken: string,
         refreshToken: string,
-    }
-}
-
-export class CreateRequest extends jspb.Message { 
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): CreateRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: CreateRequest): CreateRequest.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: CreateRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): CreateRequest;
-    static deserializeBinaryFromReader(message: CreateRequest, reader: jspb.BinaryReader): CreateRequest;
-}
-
-export namespace CreateRequest {
-    export type AsObject = {
-    }
-}
-
-export class CreateResponse extends jspb.Message { 
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): CreateResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: CreateResponse): CreateResponse.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: CreateResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): CreateResponse;
-    static deserializeBinaryFromReader(message: CreateResponse, reader: jspb.BinaryReader): CreateResponse;
-}
-
-export namespace CreateResponse {
-    export type AsObject = {
     }
 }
 
 export enum OAuthProvider {
     O_AUTH_PROVIDER_UNSPECIFIED = 0,
     O_AUTH_PROVIDER_GITHUB = 1,
-    O_AUTH_PROVIDER_BETA = 2,
 }

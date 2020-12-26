@@ -17,10 +17,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthClient interface {
-	OAuthLogin(ctx context.Context, in *OAuthLoginRequest, opts ...grpc.CallOption) (*OAuthLoginResponse, error)
+	OAuthURL(ctx context.Context, in *OAuthURLRequest, opts ...grpc.CallOption) (*OAuthURLResponse, error)
 	OAuthExchange(ctx context.Context, in *OAuthExchangeRequest, opts ...grpc.CallOption) (*OAuthExchangeResponse, error)
 	TokenExchange(ctx context.Context, in *TokenExchangeRequest, opts ...grpc.CallOption) (*TokenExchangeResponse, error)
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 }
 
 type authClient struct {
@@ -31,9 +30,9 @@ func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
 	return &authClient{cc}
 }
 
-func (c *authClient) OAuthLogin(ctx context.Context, in *OAuthLoginRequest, opts ...grpc.CallOption) (*OAuthLoginResponse, error) {
-	out := new(OAuthLoginResponse)
-	err := c.cc.Invoke(ctx, "/auth.Auth/OAuthLogin", in, out, opts...)
+func (c *authClient) OAuthURL(ctx context.Context, in *OAuthURLRequest, opts ...grpc.CallOption) (*OAuthURLResponse, error) {
+	out := new(OAuthURLResponse)
+	err := c.cc.Invoke(ctx, "/auth.Auth/OAuthURL", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -58,23 +57,13 @@ func (c *authClient) TokenExchange(ctx context.Context, in *TokenExchangeRequest
 	return out, nil
 }
 
-func (c *authClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
-	err := c.cc.Invoke(ctx, "/auth.Auth/Create", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility
 type AuthServer interface {
-	OAuthLogin(context.Context, *OAuthLoginRequest) (*OAuthLoginResponse, error)
+	OAuthURL(context.Context, *OAuthURLRequest) (*OAuthURLResponse, error)
 	OAuthExchange(context.Context, *OAuthExchangeRequest) (*OAuthExchangeResponse, error)
 	TokenExchange(context.Context, *TokenExchangeRequest) (*TokenExchangeResponse, error)
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -82,17 +71,14 @@ type AuthServer interface {
 type UnimplementedAuthServer struct {
 }
 
-func (UnimplementedAuthServer) OAuthLogin(context.Context, *OAuthLoginRequest) (*OAuthLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method OAuthLogin not implemented")
+func (UnimplementedAuthServer) OAuthURL(context.Context, *OAuthURLRequest) (*OAuthURLResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthURL not implemented")
 }
 func (UnimplementedAuthServer) OAuthExchange(context.Context, *OAuthExchangeRequest) (*OAuthExchangeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OAuthExchange not implemented")
 }
 func (UnimplementedAuthServer) TokenExchange(context.Context, *TokenExchangeRequest) (*TokenExchangeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TokenExchange not implemented")
-}
-func (UnimplementedAuthServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
@@ -107,20 +93,20 @@ func RegisterAuthServer(s grpc.ServiceRegistrar, srv AuthServer) {
 	s.RegisterService(&_Auth_serviceDesc, srv)
 }
 
-func _Auth_OAuthLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(OAuthLoginRequest)
+func _Auth_OAuthURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthURLRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthServer).OAuthLogin(ctx, in)
+		return srv.(AuthServer).OAuthURL(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/auth.Auth/OAuthLogin",
+		FullMethod: "/auth.Auth/OAuthURL",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).OAuthLogin(ctx, req.(*OAuthLoginRequest))
+		return srv.(AuthServer).OAuthURL(ctx, req.(*OAuthURLRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -161,31 +147,13 @@ func _Auth_TokenExchange_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthServer).Create(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/auth.Auth/Create",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthServer).Create(ctx, req.(*CreateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 var _Auth_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "auth.Auth",
 	HandlerType: (*AuthServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "OAuthLogin",
-			Handler:    _Auth_OAuthLogin_Handler,
+			MethodName: "OAuthURL",
+			Handler:    _Auth_OAuthURL_Handler,
 		},
 		{
 			MethodName: "OAuthExchange",
@@ -194,10 +162,6 @@ var _Auth_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TokenExchange",
 			Handler:    _Auth_TokenExchange_Handler,
-		},
-		{
-			MethodName: "Create",
-			Handler:    _Auth_Create_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

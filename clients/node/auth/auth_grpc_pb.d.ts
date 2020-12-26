@@ -9,20 +9,19 @@ import {handleClientStreamingCall} from "@grpc/grpc-js/build/src/server-call";
 import * as auth_auth_pb from "../auth/auth_pb";
 
 interface IAuthService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
-    oAuthLogin: IAuthService_IOAuthLogin;
+    oAuthURL: IAuthService_IOAuthURL;
     oAuthExchange: IAuthService_IOAuthExchange;
     tokenExchange: IAuthService_ITokenExchange;
-    create: IAuthService_ICreate;
 }
 
-interface IAuthService_IOAuthLogin extends grpc.MethodDefinition<auth_auth_pb.OAuthLoginRequest, auth_auth_pb.OAuthLoginResponse> {
-    path: "/auth.Auth/OAuthLogin";
+interface IAuthService_IOAuthURL extends grpc.MethodDefinition<auth_auth_pb.OAuthURLRequest, auth_auth_pb.OAuthURLResponse> {
+    path: "/auth.Auth/OAuthURL";
     requestStream: false;
     responseStream: false;
-    requestSerialize: grpc.serialize<auth_auth_pb.OAuthLoginRequest>;
-    requestDeserialize: grpc.deserialize<auth_auth_pb.OAuthLoginRequest>;
-    responseSerialize: grpc.serialize<auth_auth_pb.OAuthLoginResponse>;
-    responseDeserialize: grpc.deserialize<auth_auth_pb.OAuthLoginResponse>;
+    requestSerialize: grpc.serialize<auth_auth_pb.OAuthURLRequest>;
+    requestDeserialize: grpc.deserialize<auth_auth_pb.OAuthURLRequest>;
+    responseSerialize: grpc.serialize<auth_auth_pb.OAuthURLResponse>;
+    responseDeserialize: grpc.deserialize<auth_auth_pb.OAuthURLResponse>;
 }
 interface IAuthService_IOAuthExchange extends grpc.MethodDefinition<auth_auth_pb.OAuthExchangeRequest, auth_auth_pb.OAuthExchangeResponse> {
     path: "/auth.Auth/OAuthExchange";
@@ -42,52 +41,36 @@ interface IAuthService_ITokenExchange extends grpc.MethodDefinition<auth_auth_pb
     responseSerialize: grpc.serialize<auth_auth_pb.TokenExchangeResponse>;
     responseDeserialize: grpc.deserialize<auth_auth_pb.TokenExchangeResponse>;
 }
-interface IAuthService_ICreate extends grpc.MethodDefinition<auth_auth_pb.CreateRequest, auth_auth_pb.CreateResponse> {
-    path: "/auth.Auth/Create";
-    requestStream: false;
-    responseStream: false;
-    requestSerialize: grpc.serialize<auth_auth_pb.CreateRequest>;
-    requestDeserialize: grpc.deserialize<auth_auth_pb.CreateRequest>;
-    responseSerialize: grpc.serialize<auth_auth_pb.CreateResponse>;
-    responseDeserialize: grpc.deserialize<auth_auth_pb.CreateResponse>;
-}
 
 export const AuthService: IAuthService;
 
 export interface IAuthServer {
-    oAuthLogin: grpc.handleUnaryCall<auth_auth_pb.OAuthLoginRequest, auth_auth_pb.OAuthLoginResponse>;
+    oAuthURL: grpc.handleUnaryCall<auth_auth_pb.OAuthURLRequest, auth_auth_pb.OAuthURLResponse>;
     oAuthExchange: grpc.handleUnaryCall<auth_auth_pb.OAuthExchangeRequest, auth_auth_pb.OAuthExchangeResponse>;
     tokenExchange: grpc.handleUnaryCall<auth_auth_pb.TokenExchangeRequest, auth_auth_pb.TokenExchangeResponse>;
-    create: grpc.handleUnaryCall<auth_auth_pb.CreateRequest, auth_auth_pb.CreateResponse>;
 }
 
 export interface IAuthClient {
-    oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
-    oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
-    oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
+    oAuthURL(request: auth_auth_pb.OAuthURLRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
+    oAuthURL(request: auth_auth_pb.OAuthURLRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
+    oAuthURL(request: auth_auth_pb.OAuthURLRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
     oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     tokenExchange(request: auth_auth_pb.TokenExchangeRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
     tokenExchange(request: auth_auth_pb.TokenExchangeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
     tokenExchange(request: auth_auth_pb.TokenExchangeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
-    create(request: auth_auth_pb.CreateRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
-    create(request: auth_auth_pb.CreateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
-    create(request: auth_auth_pb.CreateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class AuthClient extends grpc.Client implements IAuthClient {
     constructor(address: string, credentials: grpc.ChannelCredentials, options?: Partial<grpc.ClientOptions>);
-    public oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
-    public oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
-    public oAuthLogin(request: auth_auth_pb.OAuthLoginRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthLoginResponse) => void): grpc.ClientUnaryCall;
+    public oAuthURL(request: auth_auth_pb.OAuthURLRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
+    public oAuthURL(request: auth_auth_pb.OAuthURLRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
+    public oAuthURL(request: auth_auth_pb.OAuthURLRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthURLResponse) => void): grpc.ClientUnaryCall;
     public oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     public oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     public oAuthExchange(request: auth_auth_pb.OAuthExchangeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.OAuthExchangeResponse) => void): grpc.ClientUnaryCall;
     public tokenExchange(request: auth_auth_pb.TokenExchangeRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
     public tokenExchange(request: auth_auth_pb.TokenExchangeRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
     public tokenExchange(request: auth_auth_pb.TokenExchangeRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.TokenExchangeResponse) => void): grpc.ClientUnaryCall;
-    public create(request: auth_auth_pb.CreateRequest, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
-    public create(request: auth_auth_pb.CreateRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
-    public create(request: auth_auth_pb.CreateRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: auth_auth_pb.CreateResponse) => void): grpc.ClientUnaryCall;
 }

@@ -12,6 +12,9 @@ export class Account extends jspb.Message {
   getRealName(): string;
   setRealName(value: string): void;
 
+  getGithubUsername(): string;
+  setGithubUsername(value: string): void;
+
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
   hasCreatedAt(): boolean;
@@ -35,6 +38,7 @@ export namespace Account {
     id: string,
     email: string,
     realName: string,
+    githubUsername: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }
@@ -77,6 +81,44 @@ export class CreateResponse extends jspb.Message {
 export namespace CreateResponse {
   export type AsObject = {
     account: string,
+  }
+}
+
+export class GetRequest extends jspb.Message {
+  getIdsList(): Array<string>;
+  setIdsList(value: Array<string>): void;
+  clearIdsList(): void;
+  addIds(value: string, index?: number): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetRequest): GetRequest.AsObject;
+  static serializeBinaryToWriter(message: GetRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetRequest;
+  static deserializeBinaryFromReader(message: GetRequest, reader: jspb.BinaryReader): GetRequest;
+}
+
+export namespace GetRequest {
+  export type AsObject = {
+    idsList: Array<string>,
+  }
+}
+
+export class GetResponse extends jspb.Message {
+  getAccountsMap(): jspb.Map<string, Account>;
+  clearAccountsMap(): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): GetResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetResponse): GetResponse.AsObject;
+  static serializeBinaryToWriter(message: GetResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetResponse;
+  static deserializeBinaryFromReader(message: GetResponse, reader: jspb.BinaryReader): GetResponse;
+}
+
+export namespace GetResponse {
+  export type AsObject = {
+    accountsMap: Array<[string, Account.AsObject]>,
   }
 }
 

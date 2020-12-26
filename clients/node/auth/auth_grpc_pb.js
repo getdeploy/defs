@@ -4,28 +4,6 @@
 var grpc = require('@grpc/grpc-js');
 var auth_auth_pb = require('../auth/auth_pb.js');
 
-function serialize_auth_CreateRequest(arg) {
-  if (!(arg instanceof auth_auth_pb.CreateRequest)) {
-    throw new Error('Expected argument of type auth.CreateRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_auth_CreateRequest(buffer_arg) {
-  return auth_auth_pb.CreateRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_auth_CreateResponse(arg) {
-  if (!(arg instanceof auth_auth_pb.CreateResponse)) {
-    throw new Error('Expected argument of type auth.CreateResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_auth_CreateResponse(buffer_arg) {
-  return auth_auth_pb.CreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_auth_OAuthExchangeRequest(arg) {
   if (!(arg instanceof auth_auth_pb.OAuthExchangeRequest)) {
     throw new Error('Expected argument of type auth.OAuthExchangeRequest');
@@ -48,26 +26,26 @@ function deserialize_auth_OAuthExchangeResponse(buffer_arg) {
   return auth_auth_pb.OAuthExchangeResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_auth_OAuthLoginRequest(arg) {
-  if (!(arg instanceof auth_auth_pb.OAuthLoginRequest)) {
-    throw new Error('Expected argument of type auth.OAuthLoginRequest');
+function serialize_auth_OAuthURLRequest(arg) {
+  if (!(arg instanceof auth_auth_pb.OAuthURLRequest)) {
+    throw new Error('Expected argument of type auth.OAuthURLRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_auth_OAuthLoginRequest(buffer_arg) {
-  return auth_auth_pb.OAuthLoginRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_auth_OAuthURLRequest(buffer_arg) {
+  return auth_auth_pb.OAuthURLRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_auth_OAuthLoginResponse(arg) {
-  if (!(arg instanceof auth_auth_pb.OAuthLoginResponse)) {
-    throw new Error('Expected argument of type auth.OAuthLoginResponse');
+function serialize_auth_OAuthURLResponse(arg) {
+  if (!(arg instanceof auth_auth_pb.OAuthURLResponse)) {
+    throw new Error('Expected argument of type auth.OAuthURLResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_auth_OAuthLoginResponse(buffer_arg) {
-  return auth_auth_pb.OAuthLoginResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_auth_OAuthURLResponse(buffer_arg) {
+  return auth_auth_pb.OAuthURLResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_auth_TokenExchangeRequest(arg) {
@@ -94,16 +72,16 @@ function deserialize_auth_TokenExchangeResponse(buffer_arg) {
 
 
 var AuthService = exports.AuthService = {
-  oAuthLogin: {
-    path: '/auth.Auth/OAuthLogin',
+  oAuthURL: {
+    path: '/auth.Auth/OAuthURL',
     requestStream: false,
     responseStream: false,
-    requestType: auth_auth_pb.OAuthLoginRequest,
-    responseType: auth_auth_pb.OAuthLoginResponse,
-    requestSerialize: serialize_auth_OAuthLoginRequest,
-    requestDeserialize: deserialize_auth_OAuthLoginRequest,
-    responseSerialize: serialize_auth_OAuthLoginResponse,
-    responseDeserialize: deserialize_auth_OAuthLoginResponse,
+    requestType: auth_auth_pb.OAuthURLRequest,
+    responseType: auth_auth_pb.OAuthURLResponse,
+    requestSerialize: serialize_auth_OAuthURLRequest,
+    requestDeserialize: deserialize_auth_OAuthURLRequest,
+    responseSerialize: serialize_auth_OAuthURLResponse,
+    responseDeserialize: deserialize_auth_OAuthURLResponse,
   },
   oAuthExchange: {
     path: '/auth.Auth/OAuthExchange',
@@ -126,17 +104,6 @@ var AuthService = exports.AuthService = {
     requestDeserialize: deserialize_auth_TokenExchangeRequest,
     responseSerialize: serialize_auth_TokenExchangeResponse,
     responseDeserialize: deserialize_auth_TokenExchangeResponse,
-  },
-  create: {
-    path: '/auth.Auth/Create',
-    requestStream: false,
-    responseStream: false,
-    requestType: auth_auth_pb.CreateRequest,
-    responseType: auth_auth_pb.CreateResponse,
-    requestSerialize: serialize_auth_CreateRequest,
-    requestDeserialize: deserialize_auth_CreateRequest,
-    responseSerialize: serialize_auth_CreateResponse,
-    responseDeserialize: deserialize_auth_CreateResponse,
   },
 };
 

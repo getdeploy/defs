@@ -148,5 +148,85 @@ proto.accounts.AccountsPromiseClient.prototype.create =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.accounts.GetRequest,
+ *   !proto.accounts.GetResponse>}
+ */
+const methodDescriptor_Accounts_Get = new grpc.web.MethodDescriptor(
+  '/accounts.Accounts/Get',
+  grpc.web.MethodType.UNARY,
+  proto.accounts.GetRequest,
+  proto.accounts.GetResponse,
+  /**
+   * @param {!proto.accounts.GetRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.accounts.GetResponse.deserializeBinary
+);
+
+
+/**
+ * @const
+ * @type {!grpc.web.AbstractClientBase.MethodInfo<
+ *   !proto.accounts.GetRequest,
+ *   !proto.accounts.GetResponse>}
+ */
+const methodInfo_Accounts_Get = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.accounts.GetResponse,
+  /**
+   * @param {!proto.accounts.GetRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.accounts.GetResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.accounts.GetRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.Error, ?proto.accounts.GetResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.accounts.GetResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.accounts.AccountsClient.prototype.get =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/accounts.Accounts/Get',
+      request,
+      metadata || {},
+      methodDescriptor_Accounts_Get,
+      callback);
+};
+
+
+/**
+ * @param {!proto.accounts.GetRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.accounts.GetResponse>}
+ *     A native promise that resolves to the response
+ */
+proto.accounts.AccountsPromiseClient.prototype.get =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/accounts.Accounts/Get',
+      request,
+      metadata || {},
+      methodDescriptor_Accounts_Get);
+};
+
+
 module.exports = proto.accounts;
 

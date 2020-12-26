@@ -17,6 +17,9 @@ export class Account extends jspb.Message {
     getRealName(): string;
     setRealName(value: string): Account;
 
+    getGithubUsername(): string;
+    setGithubUsername(value: string): Account;
+
 
     hasCreatedAt(): boolean;
     clearCreatedAt(): void;
@@ -45,6 +48,7 @@ export namespace Account {
         id: string,
         email: string,
         realName: string,
+        githubUsername: string,
         createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
         updatedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     }
@@ -93,5 +97,51 @@ export class CreateResponse extends jspb.Message {
 export namespace CreateResponse {
     export type AsObject = {
         account: string,
+    }
+}
+
+export class GetRequest extends jspb.Message { 
+    clearIdsList(): void;
+    getIdsList(): Array<string>;
+    setIdsList(value: Array<string>): GetRequest;
+    addIds(value: string, index?: number): string;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetRequest.AsObject;
+    static toObject(includeInstance: boolean, msg: GetRequest): GetRequest.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetRequest, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetRequest;
+    static deserializeBinaryFromReader(message: GetRequest, reader: jspb.BinaryReader): GetRequest;
+}
+
+export namespace GetRequest {
+    export type AsObject = {
+        idsList: Array<string>,
+    }
+}
+
+export class GetResponse extends jspb.Message { 
+
+    getAccountsMap(): jspb.Map<string, Account>;
+    clearAccountsMap(): void;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): GetResponse.AsObject;
+    static toObject(includeInstance: boolean, msg: GetResponse): GetResponse.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: GetResponse, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): GetResponse;
+    static deserializeBinaryFromReader(message: GetResponse, reader: jspb.BinaryReader): GetResponse;
+}
+
+export namespace GetResponse {
+    export type AsObject = {
+
+        accountsMap: Array<[string, Account.AsObject]>,
     }
 }

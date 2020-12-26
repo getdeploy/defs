@@ -1,12 +1,10 @@
 import * as grpcWeb from 'grpc-web';
 
 import {
-  CreateRequest,
-  CreateResponse,
   OAuthExchangeRequest,
   OAuthExchangeResponse,
-  OAuthLoginRequest,
-  OAuthLoginResponse,
+  OAuthURLRequest,
+  OAuthURLResponse,
   TokenExchangeRequest,
   TokenExchangeResponse} from './auth_pb';
 
@@ -15,12 +13,12 @@ export class AuthClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: string; });
 
-  oAuthLogin(
-    request: OAuthLoginRequest,
+  oAuthURL(
+    request: OAuthURLRequest,
     metadata: grpcWeb.Metadata | undefined,
     callback: (err: grpcWeb.Error,
-               response: OAuthLoginResponse) => void
-  ): grpcWeb.ClientReadableStream<OAuthLoginResponse>;
+               response: OAuthURLResponse) => void
+  ): grpcWeb.ClientReadableStream<OAuthURLResponse>;
 
   oAuthExchange(
     request: OAuthExchangeRequest,
@@ -36,13 +34,6 @@ export class AuthClient {
                response: TokenExchangeResponse) => void
   ): grpcWeb.ClientReadableStream<TokenExchangeResponse>;
 
-  create(
-    request: CreateRequest,
-    metadata: grpcWeb.Metadata | undefined,
-    callback: (err: grpcWeb.Error,
-               response: CreateResponse) => void
-  ): grpcWeb.ClientReadableStream<CreateResponse>;
-
 }
 
 export class AuthPromiseClient {
@@ -50,10 +41,10 @@ export class AuthPromiseClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: string; });
 
-  oAuthLogin(
-    request: OAuthLoginRequest,
+  oAuthURL(
+    request: OAuthURLRequest,
     metadata?: grpcWeb.Metadata
-  ): Promise<OAuthLoginResponse>;
+  ): Promise<OAuthURLResponse>;
 
   oAuthExchange(
     request: OAuthExchangeRequest,
@@ -64,11 +55,6 @@ export class AuthPromiseClient {
     request: TokenExchangeRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<TokenExchangeResponse>;
-
-  create(
-    request: CreateRequest,
-    metadata?: grpcWeb.Metadata
-  ): Promise<CreateResponse>;
 
 }
 

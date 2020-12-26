@@ -4,7 +4,9 @@ import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/t
 
 import {
   CreateRequest,
-  CreateResponse} from './accounts_pb';
+  CreateResponse,
+  GetRequest,
+  GetResponse} from './accounts_pb';
 
 export class AccountsClient {
   constructor (hostname: string,
@@ -18,6 +20,13 @@ export class AccountsClient {
                response: CreateResponse) => void
   ): grpcWeb.ClientReadableStream<CreateResponse>;
 
+  get(
+    request: GetRequest,
+    metadata: grpcWeb.Metadata | undefined,
+    callback: (err: grpcWeb.Error,
+               response: GetResponse) => void
+  ): grpcWeb.ClientReadableStream<GetResponse>;
+
 }
 
 export class AccountsPromiseClient {
@@ -29,6 +38,11 @@ export class AccountsPromiseClient {
     request: CreateRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<CreateResponse>;
+
+  get(
+    request: GetRequest,
+    metadata?: grpcWeb.Metadata
+  ): Promise<GetResponse>;
 
 }
 

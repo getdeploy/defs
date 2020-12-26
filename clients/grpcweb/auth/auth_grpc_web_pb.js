@@ -69,80 +69,80 @@ proto.auth.AuthPromiseClient =
 /**
  * @const
  * @type {!grpc.web.MethodDescriptor<
- *   !proto.auth.OAuthLoginRequest,
- *   !proto.auth.OAuthLoginResponse>}
+ *   !proto.auth.OAuthURLRequest,
+ *   !proto.auth.OAuthURLResponse>}
  */
-const methodDescriptor_Auth_OAuthLogin = new grpc.web.MethodDescriptor(
-  '/auth.Auth/OAuthLogin',
+const methodDescriptor_Auth_OAuthURL = new grpc.web.MethodDescriptor(
+  '/auth.Auth/OAuthURL',
   grpc.web.MethodType.UNARY,
-  proto.auth.OAuthLoginRequest,
-  proto.auth.OAuthLoginResponse,
+  proto.auth.OAuthURLRequest,
+  proto.auth.OAuthURLResponse,
   /**
-   * @param {!proto.auth.OAuthLoginRequest} request
+   * @param {!proto.auth.OAuthURLRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.auth.OAuthLoginResponse.deserializeBinary
+  proto.auth.OAuthURLResponse.deserializeBinary
 );
 
 
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.auth.OAuthLoginRequest,
- *   !proto.auth.OAuthLoginResponse>}
+ *   !proto.auth.OAuthURLRequest,
+ *   !proto.auth.OAuthURLResponse>}
  */
-const methodInfo_Auth_OAuthLogin = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.auth.OAuthLoginResponse,
+const methodInfo_Auth_OAuthURL = new grpc.web.AbstractClientBase.MethodInfo(
+  proto.auth.OAuthURLResponse,
   /**
-   * @param {!proto.auth.OAuthLoginRequest} request
+   * @param {!proto.auth.OAuthURLRequest} request
    * @return {!Uint8Array}
    */
   function(request) {
     return request.serializeBinary();
   },
-  proto.auth.OAuthLoginResponse.deserializeBinary
+  proto.auth.OAuthURLResponse.deserializeBinary
 );
 
 
 /**
- * @param {!proto.auth.OAuthLoginRequest} request The
+ * @param {!proto.auth.OAuthURLRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.auth.OAuthLoginResponse)}
+ * @param {function(?grpc.web.Error, ?proto.auth.OAuthURLResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.auth.OAuthLoginResponse>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.auth.OAuthURLResponse>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.auth.AuthClient.prototype.oAuthLogin =
+proto.auth.AuthClient.prototype.oAuthURL =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/auth.Auth/OAuthLogin',
+      '/auth.Auth/OAuthURL',
       request,
       metadata || {},
-      methodDescriptor_Auth_OAuthLogin,
+      methodDescriptor_Auth_OAuthURL,
       callback);
 };
 
 
 /**
- * @param {!proto.auth.OAuthLoginRequest} request The
+ * @param {!proto.auth.OAuthURLRequest} request The
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.auth.OAuthLoginResponse>}
+ * @return {!Promise<!proto.auth.OAuthURLResponse>}
  *     A native promise that resolves to the response
  */
-proto.auth.AuthPromiseClient.prototype.oAuthLogin =
+proto.auth.AuthPromiseClient.prototype.oAuthURL =
     function(request, metadata) {
   return this.client_.unaryCall(this.hostname_ +
-      '/auth.Auth/OAuthLogin',
+      '/auth.Auth/OAuthURL',
       request,
       metadata || {},
-      methodDescriptor_Auth_OAuthLogin);
+      methodDescriptor_Auth_OAuthURL);
 };
 
 
@@ -303,86 +303,6 @@ proto.auth.AuthPromiseClient.prototype.tokenExchange =
       request,
       metadata || {},
       methodDescriptor_Auth_TokenExchange);
-};
-
-
-/**
- * @const
- * @type {!grpc.web.MethodDescriptor<
- *   !proto.auth.CreateRequest,
- *   !proto.auth.CreateResponse>}
- */
-const methodDescriptor_Auth_Create = new grpc.web.MethodDescriptor(
-  '/auth.Auth/Create',
-  grpc.web.MethodType.UNARY,
-  proto.auth.CreateRequest,
-  proto.auth.CreateResponse,
-  /**
-   * @param {!proto.auth.CreateRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.auth.CreateResponse.deserializeBinary
-);
-
-
-/**
- * @const
- * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.auth.CreateRequest,
- *   !proto.auth.CreateResponse>}
- */
-const methodInfo_Auth_Create = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.auth.CreateResponse,
-  /**
-   * @param {!proto.auth.CreateRequest} request
-   * @return {!Uint8Array}
-   */
-  function(request) {
-    return request.serializeBinary();
-  },
-  proto.auth.CreateResponse.deserializeBinary
-);
-
-
-/**
- * @param {!proto.auth.CreateRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @param {function(?grpc.web.Error, ?proto.auth.CreateResponse)}
- *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.auth.CreateResponse>|undefined}
- *     The XHR Node Readable Stream
- */
-proto.auth.AuthClient.prototype.create =
-    function(request, metadata, callback) {
-  return this.client_.rpcCall(this.hostname_ +
-      '/auth.Auth/Create',
-      request,
-      metadata || {},
-      methodDescriptor_Auth_Create,
-      callback);
-};
-
-
-/**
- * @param {!proto.auth.CreateRequest} request The
- *     request proto
- * @param {?Object<string, string>} metadata User defined
- *     call metadata
- * @return {!Promise<!proto.auth.CreateResponse>}
- *     A native promise that resolves to the response
- */
-proto.auth.AuthPromiseClient.prototype.create =
-    function(request, metadata) {
-  return this.client_.unaryCall(this.hostname_ +
-      '/auth.Auth/Create',
-      request,
-      metadata || {},
-      methodDescriptor_Auth_Create);
 };
 
 
