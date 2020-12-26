@@ -10,6 +10,7 @@ message Account {
   string id = 1;
   string email = 2;
   string real_name = 3;
+  string github_username = 4;
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
 }
@@ -23,6 +24,15 @@ message CreateResponse {
   string account = 1;
 }
 
+message GetRequest {
+  repeated string ids = 1;
+}
+
+message GetResponse {
+  map<string, Account> accounts = 1;
+}
+
 service Accounts {
   rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
 }
