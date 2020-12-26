@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package auth;
 
-option go_package = "github.com/getdeploy/auth";
+option go_package = "github.com/getdeploy/proto/auth";
 
 enum OAuthProvider {
   O_AUTH_PROVIDER_UNSPECIFIED = 0;
