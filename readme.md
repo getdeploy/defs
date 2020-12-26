@@ -14,8 +14,8 @@ Packages for Go are separated by protobuf package.
 
 For example..
 ```
-go get github.com/getdeploy/proto/accounts
-go get github.com/getdeploy/proto/auth
+go get github.com/getdeploy/api/accounts
+go get github.com/getdeploy/api/auth
 ```
 
 ### gRPC Web

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package accounts;
 
-option go_package = "github.com/getdeploy/proto/accounts";
+option go_package = "github.com/getdeploy/api/accounts";
 
 import "google/protobuf/timestamp.proto";
 

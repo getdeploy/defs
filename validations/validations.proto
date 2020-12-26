@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package validations;
 
-option go_package = "github.com/getdeploy/proto/validations";
+option go_package = "github.com/getdeploy/api/validations";
 
 message Error {
   string field = 1;
