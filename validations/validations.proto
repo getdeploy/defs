@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package validations;
+
 option go_package = "github.com/getdeploy/proto/validations";
 
 message Error {
