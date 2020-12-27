@@ -479,7 +479,8 @@ proto.accounts.CreateRequest.prototype.toObject = function(opt_includeInstance) 
 proto.accounts.CreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     email: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    realName: jspb.Message.getFieldWithDefault(msg, 2, "")
+    realName: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    githubUsername: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -524,6 +525,10 @@ proto.accounts.CreateRequest.deserializeBinaryFromReader = function(msg, reader)
       var value = /** @type {string} */ (reader.readString());
       msg.setRealName(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setGithubUsername(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -567,6 +572,13 @@ proto.accounts.CreateRequest.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
+  f = message.getGithubUsername();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
 };
 
 
@@ -603,6 +615,24 @@ proto.accounts.CreateRequest.prototype.getRealName = function() {
  */
 proto.accounts.CreateRequest.prototype.setRealName = function(value) {
   return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string github_username = 3;
+ * @return {string}
+ */
+proto.accounts.CreateRequest.prototype.getGithubUsername = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.accounts.CreateRequest} returns this
+ */
+proto.accounts.CreateRequest.prototype.setGithubUsername = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

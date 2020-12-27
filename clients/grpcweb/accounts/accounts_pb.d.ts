@@ -51,6 +51,9 @@ export class CreateRequest extends jspb.Message {
   getRealName(): string;
   setRealName(value: string): void;
 
+  getGithubUsername(): string;
+  setGithubUsername(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CreateRequest.AsObject;
   static toObject(includeInstance: boolean, msg: CreateRequest): CreateRequest.AsObject;
@@ -63,6 +66,7 @@ export namespace CreateRequest {
   export type AsObject = {
     email: string,
     realName: string,
+    githubUsername: string,
   }
 }
 
