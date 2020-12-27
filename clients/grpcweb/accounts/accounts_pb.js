@@ -668,7 +668,7 @@ proto.accounts.CreateResponse.prototype.toObject = function(opt_includeInstance)
  */
 proto.accounts.CreateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    account: jspb.Message.getFieldWithDefault(msg, 1, "")
+    account: (f = msg.getAccount()) && proto.accounts.Account.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -706,7 +706,8 @@ proto.accounts.CreateResponse.deserializeBinaryFromReader = function(msg, reader
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new proto.accounts.Account;
+      reader.readMessage(value,proto.accounts.Account.deserializeBinaryFromReader);
       msg.setAccount(value);
       break;
     default:
@@ -739,30 +740,50 @@ proto.accounts.CreateResponse.prototype.serializeBinary = function() {
 proto.accounts.CreateResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
   f = message.getAccount();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       1,
-      f
+      f,
+      proto.accounts.Account.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional string account = 1;
- * @return {string}
+ * optional Account account = 1;
+ * @return {?proto.accounts.Account}
  */
 proto.accounts.CreateResponse.prototype.getAccount = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type{?proto.accounts.Account} */ (
+    jspb.Message.getWrapperField(this, proto.accounts.Account, 1));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.accounts.Account|undefined} value
+ * @return {!proto.accounts.CreateResponse} returns this
+*/
+proto.accounts.CreateResponse.prototype.setAccount = function(value) {
+  return jspb.Message.setWrapperField(this, 1, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.accounts.CreateResponse} returns this
  */
-proto.accounts.CreateResponse.prototype.setAccount = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+proto.accounts.CreateResponse.prototype.clearAccount = function() {
+  return this.setAccount(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.accounts.CreateResponse.prototype.hasAccount = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 

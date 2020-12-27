@@ -71,8 +71,10 @@ export namespace CreateRequest {
 }
 
 export class CreateResponse extends jspb.Message {
-  getAccount(): string;
-  setAccount(value: string): void;
+  getAccount(): Account | undefined;
+  setAccount(value?: Account): void;
+  hasAccount(): boolean;
+  clearAccount(): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): CreateResponse.AsObject;
@@ -84,7 +86,7 @@ export class CreateResponse extends jspb.Message {
 
 export namespace CreateResponse {
   export type AsObject = {
-    account: string,
+    account?: Account.AsObject,
   }
 }
 
