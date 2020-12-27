@@ -18,6 +18,7 @@ message Account {
 message CreateRequest {
   string email = 1;
   string real_name = 2;
+  string github_username = 3;
 }
 
 message CreateResponse {
