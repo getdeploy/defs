@@ -48,6 +48,12 @@ func ExtractErrors(e error) []*Error {
 
 // validationErrToPBErrors transforms errors into `Error`
 func validationErrToPBErrors(err error) []*Error {
+	if e, ok := err.(validations.InternalError); ok {
+		// an internal error happened
+		log.Println(e.InternalError())
+		return nil
+	}
+
 	verrs := err.(validations.Errors)
 	var errs []*Error
 	for field, err := range verrs {
