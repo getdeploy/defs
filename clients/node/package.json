@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "NodeJS clients for getdeploy.com",
   "main": "index.js",
-  "repository": "https://github.com/getdeploy/api",
+  "repository": "https://github.com/getdeploy/defs",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

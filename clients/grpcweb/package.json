@@ -4,7 +4,7 @@
   "description": "NodeJS clients for getdeploy.com",
   "main": "index.js",
   "types": "index.d.ts",
-  "repository": "https://github.com/getdeploy/api",
+  "repository": "https://github.com/getdeploy/defs",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
