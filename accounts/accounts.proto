@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package accounts;
+package api.accounts;
 
 option go_package = "github.com/getdeploy/api/accounts";
 
@@ -10,19 +10,8 @@ message Account {
   string id = 1;
   string email = 2;
   string real_name = 3;
-  string github_username = 4;
   google.protobuf.Timestamp created_at = 1000;
   google.protobuf.Timestamp updated_at = 1001;
-}
-
-message CreateRequest {
-  string email = 1;
-  string real_name = 2;
-  string github_username = 3;
-}
-
-message CreateResponse {
-  Account account = 1;
 }
 
 message GetRequest {
@@ -33,7 +22,47 @@ message GetResponse {
   map<string, Account> accounts = 1;
 }
 
+enum OAuthProvider {
+  UNKNOWN = 0;
+  OAUTH_PROVIDER_GITHUB = 1;
+  OAUTH_PROVIDER_GOOGLE = 2;
+}
+
+message Tokens {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message GetAuthURLRequest {
+  OAuthProvider provider = 1;
+  string redirect_to = 2;
+}
+
+message GetAuthURLResponse {
+  string url = 1;
+}
+
+message ExchangeAuthCodeRequest {
+  OAuthProvider provider = 1;
+  string code = 2;
+}
+
+message ExchangeAuthCodeResponse {
+  Tokens tokens = 1;
+  string redirect_to = 2;
+}
+
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+message RefreshTokenResponse {
+  Tokens tokens = 1;
+}
+
 service Accounts {
-  rpc Create(CreateRequest) returns (CreateResponse);
   rpc Get(GetRequest) returns (GetResponse);
+  rpc GetAuthURL(GetAuthURLRequest) returns (GetAuthURLResponse);
+  rpc ExchangeAuthCode(ExchangeAuthCodeRequest) returns (ExchangeAuthCodeResponse);
+  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }

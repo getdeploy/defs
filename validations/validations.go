@@ -6,6 +6,7 @@ import (
 	"log"
 
 	validations "github.com/go-ozzo/ozzo-validation/v4"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -14,40 +15,27 @@ import (
 func NewError(ctx context.Context, err error) error {
 	st := status.New(codes.InvalidArgument, "Some of the fields you provided in your request are not valid")
 	errors := validationErrToPBErrors(err)
-	st, _ = st.WithDetails(&Errors{Errors: errors})
-	return st.Err()
-}
-
-// NewErrorFromValidations create a custom error from you own validations
-func NewErrorFromValidations(ctx context.Context, errors []*Error) error {
-	st := status.New(codes.InvalidArgument, "Some of the fields you provided in your request are not valid")
-	st, _ = st.WithDetails(&Errors{Errors: errors})
+	st, _ = st.WithDetails(&errdetails.BadRequest{FieldViolations: errors})
 	return st.Err()
 }
 
 // ExtractErrors may be used to extract the validation errors from a GRPC error
-func ExtractErrors(e error) []*Error {
+func ExtractErrors(e error) *errdetails.BadRequest {
 	st := status.Convert(e)
 	for _, detail := range st.Details() {
 		switch v := detail.(type) {
-		case *Errors:
-			return v.Errors
-		case error:
-			return []*Error{
-				&Error{
-					Field:   "__unknown__",
-					Message: v.Error(),
-				},
-			}
+		case *errdetails.BadRequest:
+			return v
 		default:
-			log.Printf("Unexpected error details %+v", v)
+			return nil
 		}
 	}
+
 	return nil
 }
 
 // validationErrToPBErrors transforms errors into `Error`
-func validationErrToPBErrors(err error) []*Error {
+func validationErrToPBErrors(err error) []*errdetails.BadRequest_FieldViolation {
 	if e, ok := err.(validations.InternalError); ok {
 		// an internal error happened
 		log.Println(e.InternalError())
@@ -55,11 +43,11 @@ func validationErrToPBErrors(err error) []*Error {
 	}
 
 	verrs := err.(validations.Errors)
-	var errs []*Error
+	var errs []*errdetails.BadRequest_FieldViolation
 	for field, err := range verrs {
-		v := &Error{
-			Field:   field,
-			Message: err.Error(),
+		v := &errdetails.BadRequest_FieldViolation{
+			Field:       field,
+			Description: err.Error(),
 		}
 		errs = append(errs, v)
 	}

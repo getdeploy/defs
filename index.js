@@ -35,52 +35,6 @@ export * from "./<%- v %>";
 <% }) -%>
 `;
 
-const goClient = `
-package <%- v.toLowerCase() %>
-
-import (
-	"sync"
-
-	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	"github.com/grpc-ecosystem/grpc-opentracing/go/otgrpc"
-	"github.com/lileio/lile/v2"
-	opentracing "github.com/opentracing/opentracing-go"
-	"google.golang.org/grpc"
-)
-
-var (
-	cm     = &sync.Mutex{}
-	Client <%- v %>Client
-)
-
-func GetClient() <%- v %>Client {
-	cm.Lock()
-	defer cm.Unlock()
-
-	if Client != nil {
-		return Client
-	}
-
-	serviceURL := lile.URLForService("<%- v.toLowerCase() %>")
-
-	// We don't need to error here, as this creates a pool and connections
-	// will happen later
-	conn, _ := grpc.Dial(
-		serviceURL,
-		grpc.WithInsecure(),
-		grpc.WithUnaryInterceptor(
-			grpc_middleware.ChainUnaryClient(
-				lile.ContextClientInterceptor(),
-				otgrpc.OpenTracingClientInterceptor(opentracing.GlobalTracer()),
-			),
-		))
-
-	cli := New<%- v %>Client(conn)
-	Client = cli
-	return cli
-}
-`;
-
 const folders = ["clients/grpcweb", "clients/node"];
 
 // This would look something like
@@ -120,11 +74,6 @@ folders.forEach((f) => {
     fs.writeFileSync(`./${f}/index.d.ts`, indexjsOut, { flag: "w" });
 
     for (const [k, package] of Object.entries(packages)) {
-      if (!k.includes("validations")) {
-        var goclientOut = ejs.render(goClient, { v: camelize(k) });
-        fs.writeFileSync(`./${k}/client.go`, goclientOut, { flag: "w" });
-      }
-
       indexjsOut = ejs.render(packageIndexjs, { package });
       indexjsOut = prettier.format(indexjsOut, { parser: "babel" });
       fs.writeFileSync(`./${f}/${k}/index.js`, indexjsOut, { flag: "w" });

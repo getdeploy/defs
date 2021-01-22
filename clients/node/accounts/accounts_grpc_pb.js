@@ -5,73 +5,139 @@ var grpc = require('@grpc/grpc-js');
 var accounts_accounts_pb = require('../accounts/accounts_pb.js');
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
-function serialize_accounts_CreateRequest(arg) {
-  if (!(arg instanceof accounts_accounts_pb.CreateRequest)) {
-    throw new Error('Expected argument of type accounts.CreateRequest');
+function serialize_api_accounts_ExchangeAuthCodeRequest(arg) {
+  if (!(arg instanceof accounts_accounts_pb.ExchangeAuthCodeRequest)) {
+    throw new Error('Expected argument of type api.accounts.ExchangeAuthCodeRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_accounts_CreateRequest(buffer_arg) {
-  return accounts_accounts_pb.CreateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_api_accounts_ExchangeAuthCodeRequest(buffer_arg) {
+  return accounts_accounts_pb.ExchangeAuthCodeRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_accounts_CreateResponse(arg) {
-  if (!(arg instanceof accounts_accounts_pb.CreateResponse)) {
-    throw new Error('Expected argument of type accounts.CreateResponse');
+function serialize_api_accounts_ExchangeAuthCodeResponse(arg) {
+  if (!(arg instanceof accounts_accounts_pb.ExchangeAuthCodeResponse)) {
+    throw new Error('Expected argument of type api.accounts.ExchangeAuthCodeResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_accounts_CreateResponse(buffer_arg) {
-  return accounts_accounts_pb.CreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_api_accounts_ExchangeAuthCodeResponse(buffer_arg) {
+  return accounts_accounts_pb.ExchangeAuthCodeResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_accounts_GetRequest(arg) {
+function serialize_api_accounts_GetAuthURLRequest(arg) {
+  if (!(arg instanceof accounts_accounts_pb.GetAuthURLRequest)) {
+    throw new Error('Expected argument of type api.accounts.GetAuthURLRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_accounts_GetAuthURLRequest(buffer_arg) {
+  return accounts_accounts_pb.GetAuthURLRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_accounts_GetAuthURLResponse(arg) {
+  if (!(arg instanceof accounts_accounts_pb.GetAuthURLResponse)) {
+    throw new Error('Expected argument of type api.accounts.GetAuthURLResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_accounts_GetAuthURLResponse(buffer_arg) {
+  return accounts_accounts_pb.GetAuthURLResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_accounts_GetRequest(arg) {
   if (!(arg instanceof accounts_accounts_pb.GetRequest)) {
-    throw new Error('Expected argument of type accounts.GetRequest');
+    throw new Error('Expected argument of type api.accounts.GetRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_accounts_GetRequest(buffer_arg) {
+function deserialize_api_accounts_GetRequest(buffer_arg) {
   return accounts_accounts_pb.GetRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_accounts_GetResponse(arg) {
+function serialize_api_accounts_GetResponse(arg) {
   if (!(arg instanceof accounts_accounts_pb.GetResponse)) {
-    throw new Error('Expected argument of type accounts.GetResponse');
+    throw new Error('Expected argument of type api.accounts.GetResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_accounts_GetResponse(buffer_arg) {
+function deserialize_api_accounts_GetResponse(buffer_arg) {
   return accounts_accounts_pb.GetResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_accounts_RefreshTokenRequest(arg) {
+  if (!(arg instanceof accounts_accounts_pb.RefreshTokenRequest)) {
+    throw new Error('Expected argument of type api.accounts.RefreshTokenRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_accounts_RefreshTokenRequest(buffer_arg) {
+  return accounts_accounts_pb.RefreshTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_api_accounts_RefreshTokenResponse(arg) {
+  if (!(arg instanceof accounts_accounts_pb.RefreshTokenResponse)) {
+    throw new Error('Expected argument of type api.accounts.RefreshTokenResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_api_accounts_RefreshTokenResponse(buffer_arg) {
+  return accounts_accounts_pb.RefreshTokenResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
 var AccountsService = exports.AccountsService = {
-  create: {
-    path: '/accounts.Accounts/Create',
-    requestStream: false,
-    responseStream: false,
-    requestType: accounts_accounts_pb.CreateRequest,
-    responseType: accounts_accounts_pb.CreateResponse,
-    requestSerialize: serialize_accounts_CreateRequest,
-    requestDeserialize: deserialize_accounts_CreateRequest,
-    responseSerialize: serialize_accounts_CreateResponse,
-    responseDeserialize: deserialize_accounts_CreateResponse,
-  },
   get: {
-    path: '/accounts.Accounts/Get',
+    path: '/api.accounts.Accounts/Get',
     requestStream: false,
     responseStream: false,
     requestType: accounts_accounts_pb.GetRequest,
     responseType: accounts_accounts_pb.GetResponse,
-    requestSerialize: serialize_accounts_GetRequest,
-    requestDeserialize: deserialize_accounts_GetRequest,
-    responseSerialize: serialize_accounts_GetResponse,
-    responseDeserialize: deserialize_accounts_GetResponse,
+    requestSerialize: serialize_api_accounts_GetRequest,
+    requestDeserialize: deserialize_api_accounts_GetRequest,
+    responseSerialize: serialize_api_accounts_GetResponse,
+    responseDeserialize: deserialize_api_accounts_GetResponse,
+  },
+  getAuthURL: {
+    path: '/api.accounts.Accounts/GetAuthURL',
+    requestStream: false,
+    responseStream: false,
+    requestType: accounts_accounts_pb.GetAuthURLRequest,
+    responseType: accounts_accounts_pb.GetAuthURLResponse,
+    requestSerialize: serialize_api_accounts_GetAuthURLRequest,
+    requestDeserialize: deserialize_api_accounts_GetAuthURLRequest,
+    responseSerialize: serialize_api_accounts_GetAuthURLResponse,
+    responseDeserialize: deserialize_api_accounts_GetAuthURLResponse,
+  },
+  exchangeAuthCode: {
+    path: '/api.accounts.Accounts/ExchangeAuthCode',
+    requestStream: false,
+    responseStream: false,
+    requestType: accounts_accounts_pb.ExchangeAuthCodeRequest,
+    responseType: accounts_accounts_pb.ExchangeAuthCodeResponse,
+    requestSerialize: serialize_api_accounts_ExchangeAuthCodeRequest,
+    requestDeserialize: deserialize_api_accounts_ExchangeAuthCodeRequest,
+    responseSerialize: serialize_api_accounts_ExchangeAuthCodeResponse,
+    responseDeserialize: deserialize_api_accounts_ExchangeAuthCodeResponse,
+  },
+  refreshToken: {
+    path: '/api.accounts.Accounts/RefreshToken',
+    requestStream: false,
+    responseStream: false,
+    requestType: accounts_accounts_pb.RefreshTokenRequest,
+    responseType: accounts_accounts_pb.RefreshTokenResponse,
+    requestSerialize: serialize_api_accounts_RefreshTokenRequest,
+    requestDeserialize: deserialize_api_accounts_RefreshTokenRequest,
+    responseSerialize: serialize_api_accounts_RefreshTokenResponse,
+    responseDeserialize: deserialize_api_accounts_RefreshTokenResponse,
   },
 };
 
