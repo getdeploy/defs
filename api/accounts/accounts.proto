@@ -23,9 +23,9 @@ message GetResponse {
 }
 
 enum OAuthProvider {
-  UNKNOWN = 0;
-  OAUTH_PROVIDER_GITHUB = 1;
-  OAUTH_PROVIDER_GOOGLE = 2;
+  O_AUTH_PROVIDER_UNSPECIFIED = 0;
+  O_AUTH_PROVIDER_GITHUB = 1;
+  O_AUTH_PROVIDER_GOOGLE = 2;
 }
 
 message Tokens {

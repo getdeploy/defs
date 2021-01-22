@@ -201,5 +201,5 @@ var _Accounts_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "accounts/accounts.proto",
+	Metadata: "api/accounts/accounts.proto",
 }
