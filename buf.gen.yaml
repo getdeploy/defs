@@ -6,6 +6,9 @@ plugins:
   - name: go-grpc
     out: .
     opt: paths=source_relative
+  - name: grpc-gateway
+    out: .
+    opt: paths=source_relative,generate_unbound_methods=true
   - name: js
     out: clients/grpcweb
     opt: import_style=commonjs
