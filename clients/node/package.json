@@ -1,9 +1,9 @@
 {
-  "name": "@getdeploy/node",
+  "name": "@getdeply/node",
   "version": "0.1.0",
-  "description": "NodeJS clients for getdeploy.com",
+  "description": "NodeJS clients for getdeply.com",
   "main": "index.js",
-  "repository": "https://github.com/getdeploy/defs",
+  "repository": "https://github.com/getdeply/defs",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

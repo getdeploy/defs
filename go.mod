@@ -1,4 +1,4 @@
-module github.com/getdeploy/defs
+module github.com/getdeply/defs
 
 require (
 	cloud.google.com/go/pubsub v1.9.1 // indirect

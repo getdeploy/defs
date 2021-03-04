@@ -14,8 +14,8 @@ Packages for Go are separated by protobuf package.
 
 For example..
 ```
-go get github.com/getdeploy/api/accounts
-go get github.com/getdeploy/api/auth
+go get github.com/getdeply/api/accounts
+go get github.com/getdeply/api/auth
 ```
 
 ### gRPC Web
@@ -24,8 +24,8 @@ go get github.com/getdeploy/api/auth
 ##### Installation
 gRPC-Web is provided as a single package installation via NPM, using Github's package manager.
 ```
-echo "@getdeploy:registry=https://npm.pkg.github.com" >> .npmrc
-npm i -s @getdeploy/grpcweb
+echo "@getdeply:registry=https://npm.pkg.github.com" >> .npmrc
+npm i -s @getdeply/grpcweb
 ```
 
 ### Node
@@ -33,6 +33,6 @@ npm i -s @getdeploy/grpcweb
 
 The node package is provided as a single package installation via NPM, also using Github's package manager.
 ```
-echo "@getdeploy:registry=https://npm.pkg.github.com" >> .npmrc
-npm i -s @getdeploy/node
+echo "@getdeply:registry=https://npm.pkg.github.com" >> .npmrc
+npm i -s @getdeply/node
 ```
