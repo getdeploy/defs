@@ -14,6 +14,14 @@ message Account {
   google.protobuf.Timestamp updated_at = 1001;
 }
 
+message CreateRequest {
+  string github_access_token = 1;
+}
+
+message CreateResponse {
+  Account account = 1;
+}
+
 message GetRequest {
   repeated string ids = 1;
 }
@@ -22,47 +30,7 @@ message GetResponse {
   map<string, Account> accounts = 1;
 }
 
-enum OAuthProvider {
-  O_AUTH_PROVIDER_UNSPECIFIED = 0;
-  O_AUTH_PROVIDER_GITHUB = 1;
-  O_AUTH_PROVIDER_GOOGLE = 2;
-}
-
-message Tokens {
-  string access_token = 1;
-  string refresh_token = 2;
-}
-
-message GetAuthURLRequest {
-  OAuthProvider provider = 1;
-  string redirect_to = 2;
-}
-
-message GetAuthURLResponse {
-  string url = 1;
-}
-
-message ExchangeAuthCodeRequest {
-  OAuthProvider provider = 1;
-  string code = 2;
-}
-
-message ExchangeAuthCodeResponse {
-  Tokens tokens = 1;
-  string redirect_to = 2;
-}
-
-message RefreshTokenRequest {
-  string refresh_token = 1;
-}
-
-message RefreshTokenResponse {
-  Tokens tokens = 1;
-}
-
 service Accounts {
+  rpc Create(CreateRequest) returns (CreateResponse);
   rpc Get(GetRequest) returns (GetResponse);
-  rpc GetAuthURL(GetAuthURLRequest) returns (GetAuthURLResponse);
-  rpc ExchangeAuthCode(ExchangeAuthCodeRequest) returns (ExchangeAuthCodeResponse);
-  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }

@@ -18,10 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountsClient interface {
+	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
-	GetAuthURL(ctx context.Context, in *GetAuthURLRequest, opts ...grpc.CallOption) (*GetAuthURLResponse, error)
-	ExchangeAuthCode(ctx context.Context, in *ExchangeAuthCodeRequest, opts ...grpc.CallOption) (*ExchangeAuthCodeResponse, error)
-	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
 }
 
 type accountsClient struct {
@@ -30,6 +28,15 @@ type accountsClient struct {
 
 func NewAccountsClient(cc grpc.ClientConnInterface) AccountsClient {
 	return &accountsClient{cc}
+}
+
+func (c *accountsClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
+	out := new(CreateResponse)
+	err := c.cc.Invoke(ctx, "/api.accounts.Accounts/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *accountsClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
@@ -41,41 +48,12 @@ func (c *accountsClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.C
 	return out, nil
 }
 
-func (c *accountsClient) GetAuthURL(ctx context.Context, in *GetAuthURLRequest, opts ...grpc.CallOption) (*GetAuthURLResponse, error) {
-	out := new(GetAuthURLResponse)
-	err := c.cc.Invoke(ctx, "/api.accounts.Accounts/GetAuthURL", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountsClient) ExchangeAuthCode(ctx context.Context, in *ExchangeAuthCodeRequest, opts ...grpc.CallOption) (*ExchangeAuthCodeResponse, error) {
-	out := new(ExchangeAuthCodeResponse)
-	err := c.cc.Invoke(ctx, "/api.accounts.Accounts/ExchangeAuthCode", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *accountsClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error) {
-	out := new(RefreshTokenResponse)
-	err := c.cc.Invoke(ctx, "/api.accounts.Accounts/RefreshToken", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // AccountsServer is the server API for Accounts service.
 // All implementations must embed UnimplementedAccountsServer
 // for forward compatibility
 type AccountsServer interface {
+	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	Get(context.Context, *GetRequest) (*GetResponse, error)
-	GetAuthURL(context.Context, *GetAuthURLRequest) (*GetAuthURLResponse, error)
-	ExchangeAuthCode(context.Context, *ExchangeAuthCodeRequest) (*ExchangeAuthCodeResponse, error)
-	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
 	mustEmbedUnimplementedAccountsServer()
 }
 
@@ -83,17 +61,11 @@ type AccountsServer interface {
 type UnimplementedAccountsServer struct {
 }
 
+func (UnimplementedAccountsServer) Create(context.Context, *CreateRequest) (*CreateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
 func (UnimplementedAccountsServer) Get(context.Context, *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
-}
-func (UnimplementedAccountsServer) GetAuthURL(context.Context, *GetAuthURLRequest) (*GetAuthURLResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAuthURL not implemented")
-}
-func (UnimplementedAccountsServer) ExchangeAuthCode(context.Context, *ExchangeAuthCodeRequest) (*ExchangeAuthCodeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ExchangeAuthCode not implemented")
-}
-func (UnimplementedAccountsServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
 }
 func (UnimplementedAccountsServer) mustEmbedUnimplementedAccountsServer() {}
 
@@ -106,6 +78,24 @@ type UnsafeAccountsServer interface {
 
 func RegisterAccountsServer(s grpc.ServiceRegistrar, srv AccountsServer) {
 	s.RegisterService(&Accounts_ServiceDesc, srv)
+}
+
+func _Accounts_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountsServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.accounts.Accounts/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountsServer).Create(ctx, req.(*CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Accounts_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -126,60 +116,6 @@ func _Accounts_Get_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Accounts_GetAuthURL_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAuthURLRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountsServer).GetAuthURL(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.accounts.Accounts/GetAuthURL",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).GetAuthURL(ctx, req.(*GetAuthURLRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Accounts_ExchangeAuthCode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ExchangeAuthCodeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountsServer).ExchangeAuthCode(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.accounts.Accounts/ExchangeAuthCode",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).ExchangeAuthCode(ctx, req.(*ExchangeAuthCodeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Accounts_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RefreshTokenRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AccountsServer).RefreshToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.accounts.Accounts/RefreshToken",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AccountsServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Accounts_ServiceDesc is the grpc.ServiceDesc for Accounts service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -188,20 +124,12 @@ var Accounts_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AccountsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "Create",
+			Handler:    _Accounts_Create_Handler,
+		},
+		{
 			MethodName: "Get",
 			Handler:    _Accounts_Get_Handler,
-		},
-		{
-			MethodName: "GetAuthURL",
-			Handler:    _Accounts_GetAuthURL_Handler,
-		},
-		{
-			MethodName: "ExchangeAuthCode",
-			Handler:    _Accounts_ExchangeAuthCode_Handler,
-		},
-		{
-			MethodName: "RefreshToken",
-			Handler:    _Accounts_RefreshToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
