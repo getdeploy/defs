@@ -26,8 +26,6 @@ $(BUF):
 	@touch $(BUF)
 
 
-ROLLUP := ./node_modules/rollup/dist/bin/rollup
-
 .PHONY: all check
 all: $(BUF) breaking_change format lint proto
 check: $(BUF) breaking_change lint

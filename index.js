@@ -6,7 +6,7 @@ const prettier = require("prettier");
 
 const mainIndexjs = `
 <% for (const [k, value] of Object.entries(packages)) { -%>
-const <%- k %> = require("./<%- k %>/index.js");
+const <%- k %> = require("./<%- value.path %>/index.js");
 <% } -%>
 
 module.exports = { <%= Object.keys(packages).join(", "); %> }
@@ -14,7 +14,7 @@ module.exports = { <%= Object.keys(packages).join(", "); %> }
 
 const mainIndexdts = `
 <% for (const [k, value] of Object.entries(packages)) { -%>
-import * as <%- k %> from "./<%- k %>";
+import * as <%- k %> from "./<%- value.path %>";
 <% } -%>
 
 export { <%= Object.keys(packages).join(", "); %> }
@@ -45,7 +45,7 @@ const folders = ["clients/grpcweb", "clients/node"];
 
 folders.forEach((f) => {
   const packages = {};
-  glob(`./${f}/*/*.js`, null, function (er, files) {
+  glob(`./${f}/**/*.js`, null, function (er, files) {
     if (er) {
       console.log(er);
       return;
@@ -56,14 +56,18 @@ folders.forEach((f) => {
         return;
       }
 
-      if (!packages[path.dirname(x).split(path.sep).pop()]) {
-        packages[path.dirname(x).split(path.sep).pop()] = [];
+      const packageName = path.dirname(x).split(path.sep).pop();
+      if (!packages[packageName]) {
+        packages[packageName] = { files: [] };
       }
 
-      packages[path.dirname(x).split(path.sep).pop()].push(path.basename(x));
+      packages[packageName]["files"].push(path.basename(x));
+      packages[packageName]["path"] = path
+        .dirname(x)
+        .split(f)
+        .pop()
+        .substring(1);
     });
-
-    console.log(packages);
 
     var indexjsOut = ejs.render(mainIndexjs, { packages });
     indexjsOut = prettier.format(indexjsOut, { parser: "babel" });
@@ -73,14 +77,18 @@ folders.forEach((f) => {
     indexjsOut = prettier.format(indexjsOut, { parser: "babel" });
     fs.writeFileSync(`./${f}/index.d.ts`, indexjsOut, { flag: "w" });
 
-    for (const [k, package] of Object.entries(packages)) {
-      indexjsOut = ejs.render(packageIndexjs, { package });
+    for (const [_, package] of Object.entries(packages)) {
+      indexjsOut = ejs.render(packageIndexjs, { package: package.files });
       indexjsOut = prettier.format(indexjsOut, { parser: "babel" });
-      fs.writeFileSync(`./${f}/${k}/index.js`, indexjsOut, { flag: "w" });
+      fs.writeFileSync(`./${f}/${package.path}/index.js`, indexjsOut, {
+        flag: "w",
+      });
 
-      indexjsOut = ejs.render(packageIndexdts, { package });
+      indexjsOut = ejs.render(packageIndexdts, { package: package.files });
       indexjsOut = prettier.format(indexjsOut, { parser: "babel" });
-      fs.writeFileSync(`./${f}/${k}/index.d.ts`, indexjsOut, { flag: "w" });
+      fs.writeFileSync(`./${f}/${package.path}/index.d.ts`, indexjsOut, {
+        flag: "w",
+      });
     }
   });
 });
