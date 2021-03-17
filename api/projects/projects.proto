@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package api.projects;
+
+option go_package = "github.com/getdeply/defs/api/projects";
+
+import "google/protobuf/timestamp.proto";
+
+message Project {
+  string id = 1;
+  string name = 2;
+  repeated ProjectAccount accounts = 4;
+  repeated ProjectInvite invites = 5;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+enum ProjectAccountRelation {
+  PROJECT_ACCOUNT_RELATION_UNSPECIFIED = 0;
+  PROJECT_ACCOUNT_RELATION_OWNER = 1;
+  PROJECT_ACCOUNT_RELATION_USER = 2;
+}
+
+message ProjectAccount {
+  string account_id = 1;
+  ProjectAccountRelation relation = 2;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message ProjectInvite {
+  string email = 1;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message GetRequest {
+  repeated string ids = 1;
+}
+
+message GetResponse {
+  map<string, Project> projects = 1;
+}
+
+message CreateRequest {
+  string name = 1;
+}
+
+message CreateResponse {
+  Project project = 1;
+}
+
+message ListRequest {
+  // Will return projects you own OR are part of
+
+}
+
+message ListResponse {
+  repeated Project projects = 1;
+}
+
+message InviteRequest {
+  string project_id = 1;
+  string email = 2;
+}
+
+message InviteResponse {}
+
+message AddAccountRequest {
+  string account_id = 2;
+}
+
+message AddAccountResponse {}
+
+service Projects {
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc Invite(InviteRequest) returns (InviteResponse);
+  rpc AddAccount(AddAccountRequest) returns (AddAccountResponse);
+}

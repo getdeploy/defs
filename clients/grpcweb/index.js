@@ -1,4 +1,5 @@
 const accounts = require("./api/accounts/index.js");
+const projects = require("./api/projects/index.js");
 const validations = require("./validations/index.js");
 
-module.exports = { accounts, validations };
+module.exports = { accounts, projects, validations };
