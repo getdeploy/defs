@@ -22,7 +22,6 @@ type ProjectsClient interface {
 	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
 	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
 	Invite(ctx context.Context, in *InviteRequest, opts ...grpc.CallOption) (*InviteResponse, error)
-	AddAccount(ctx context.Context, in *AddAccountRequest, opts ...grpc.CallOption) (*AddAccountResponse, error)
 }
 
 type projectsClient struct {
@@ -69,15 +68,6 @@ func (c *projectsClient) Invite(ctx context.Context, in *InviteRequest, opts ...
 	return out, nil
 }
 
-func (c *projectsClient) AddAccount(ctx context.Context, in *AddAccountRequest, opts ...grpc.CallOption) (*AddAccountResponse, error) {
-	out := new(AddAccountResponse)
-	err := c.cc.Invoke(ctx, "/api.projects.Projects/AddAccount", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // ProjectsServer is the server API for Projects service.
 // All implementations must embed UnimplementedProjectsServer
 // for forward compatibility
@@ -86,7 +76,6 @@ type ProjectsServer interface {
 	Create(context.Context, *CreateRequest) (*CreateResponse, error)
 	List(context.Context, *ListRequest) (*ListResponse, error)
 	Invite(context.Context, *InviteRequest) (*InviteResponse, error)
-	AddAccount(context.Context, *AddAccountRequest) (*AddAccountResponse, error)
 	mustEmbedUnimplementedProjectsServer()
 }
 
@@ -105,9 +94,6 @@ func (UnimplementedProjectsServer) List(context.Context, *ListRequest) (*ListRes
 }
 func (UnimplementedProjectsServer) Invite(context.Context, *InviteRequest) (*InviteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Invite not implemented")
-}
-func (UnimplementedProjectsServer) AddAccount(context.Context, *AddAccountRequest) (*AddAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddAccount not implemented")
 }
 func (UnimplementedProjectsServer) mustEmbedUnimplementedProjectsServer() {}
 
@@ -194,24 +180,6 @@ func _Projects_Invite_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Projects_AddAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(ProjectsServer).AddAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.projects.Projects/AddAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ProjectsServer).AddAccount(ctx, req.(*AddAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // Projects_ServiceDesc is the grpc.ServiceDesc for Projects service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -234,10 +202,6 @@ var Projects_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Invite",
 			Handler:    _Projects_Invite_Handler,
-		},
-		{
-			MethodName: "AddAccount",
-			Handler:    _Projects_AddAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

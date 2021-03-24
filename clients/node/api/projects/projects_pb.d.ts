@@ -290,6 +290,12 @@ export namespace InviteRequest {
 
 export class InviteResponse extends jspb.Message { 
 
+    hasProject(): boolean;
+    clearProject(): void;
+    getProject(): Project | undefined;
+    setProject(value?: Project): InviteResponse;
+
+
     serializeBinary(): Uint8Array;
     toObject(includeInstance?: boolean): InviteResponse.AsObject;
     static toObject(includeInstance: boolean, msg: InviteResponse): InviteResponse.AsObject;
@@ -302,44 +308,7 @@ export class InviteResponse extends jspb.Message {
 
 export namespace InviteResponse {
     export type AsObject = {
-    }
-}
-
-export class AddAccountRequest extends jspb.Message { 
-    getAccountId(): string;
-    setAccountId(value: string): AddAccountRequest;
-
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): AddAccountRequest.AsObject;
-    static toObject(includeInstance: boolean, msg: AddAccountRequest): AddAccountRequest.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: AddAccountRequest, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): AddAccountRequest;
-    static deserializeBinaryFromReader(message: AddAccountRequest, reader: jspb.BinaryReader): AddAccountRequest;
-}
-
-export namespace AddAccountRequest {
-    export type AsObject = {
-        accountId: string,
-    }
-}
-
-export class AddAccountResponse extends jspb.Message { 
-
-    serializeBinary(): Uint8Array;
-    toObject(includeInstance?: boolean): AddAccountResponse.AsObject;
-    static toObject(includeInstance: boolean, msg: AddAccountResponse): AddAccountResponse.AsObject;
-    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-    static serializeBinaryToWriter(message: AddAccountResponse, writer: jspb.BinaryWriter): void;
-    static deserializeBinary(bytes: Uint8Array): AddAccountResponse;
-    static deserializeBinaryFromReader(message: AddAccountResponse, reader: jspb.BinaryReader): AddAccountResponse;
-}
-
-export namespace AddAccountResponse {
-    export type AsObject = {
+        project?: Project.AsObject,
     }
 }
 

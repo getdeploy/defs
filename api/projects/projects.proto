@@ -67,18 +67,13 @@ message InviteRequest {
   string email = 2;
 }
 
-message InviteResponse {}
-
-message AddAccountRequest {
-  string account_id = 2;
+message InviteResponse {
+  Project project = 1;
 }
-
-message AddAccountResponse {}
 
 service Projects {
   rpc Get(GetRequest) returns (GetResponse);
   rpc Create(CreateRequest) returns (CreateResponse);
   rpc List(ListRequest) returns (ListResponse);
   rpc Invite(InviteRequest) returns (InviteResponse);
-  rpc AddAccount(AddAccountRequest) returns (AddAccountResponse);
 }

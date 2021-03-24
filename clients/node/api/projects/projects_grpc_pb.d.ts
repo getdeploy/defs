@@ -14,7 +14,6 @@ interface IProjectsService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
     create: IProjectsService_ICreate;
     list: IProjectsService_IList;
     invite: IProjectsService_IInvite;
-    addAccount: IProjectsService_IAddAccount;
 }
 
 interface IProjectsService_IGet extends grpc.MethodDefinition<api_projects_projects_pb.GetRequest, api_projects_projects_pb.GetResponse> {
@@ -53,15 +52,6 @@ interface IProjectsService_IInvite extends grpc.MethodDefinition<api_projects_pr
     responseSerialize: grpc.serialize<api_projects_projects_pb.InviteResponse>;
     responseDeserialize: grpc.deserialize<api_projects_projects_pb.InviteResponse>;
 }
-interface IProjectsService_IAddAccount extends grpc.MethodDefinition<api_projects_projects_pb.AddAccountRequest, api_projects_projects_pb.AddAccountResponse> {
-    path: "/api.projects.Projects/AddAccount";
-    requestStream: false;
-    responseStream: false;
-    requestSerialize: grpc.serialize<api_projects_projects_pb.AddAccountRequest>;
-    requestDeserialize: grpc.deserialize<api_projects_projects_pb.AddAccountRequest>;
-    responseSerialize: grpc.serialize<api_projects_projects_pb.AddAccountResponse>;
-    responseDeserialize: grpc.deserialize<api_projects_projects_pb.AddAccountResponse>;
-}
 
 export const ProjectsService: IProjectsService;
 
@@ -70,7 +60,6 @@ export interface IProjectsServer {
     create: grpc.handleUnaryCall<api_projects_projects_pb.CreateRequest, api_projects_projects_pb.CreateResponse>;
     list: grpc.handleUnaryCall<api_projects_projects_pb.ListRequest, api_projects_projects_pb.ListResponse>;
     invite: grpc.handleUnaryCall<api_projects_projects_pb.InviteRequest, api_projects_projects_pb.InviteResponse>;
-    addAccount: grpc.handleUnaryCall<api_projects_projects_pb.AddAccountRequest, api_projects_projects_pb.AddAccountResponse>;
 }
 
 export interface IProjectsClient {
@@ -86,9 +75,6 @@ export interface IProjectsClient {
     invite(request: api_projects_projects_pb.InviteRequest, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
     invite(request: api_projects_projects_pb.InviteRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
     invite(request: api_projects_projects_pb.InviteRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
-    addAccount(request: api_projects_projects_pb.AddAccountRequest, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
-    addAccount(request: api_projects_projects_pb.AddAccountRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
-    addAccount(request: api_projects_projects_pb.AddAccountRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class ProjectsClient extends grpc.Client implements IProjectsClient {
@@ -105,7 +91,4 @@ export class ProjectsClient extends grpc.Client implements IProjectsClient {
     public invite(request: api_projects_projects_pb.InviteRequest, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
     public invite(request: api_projects_projects_pb.InviteRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
     public invite(request: api_projects_projects_pb.InviteRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.InviteResponse) => void): grpc.ClientUnaryCall;
-    public addAccount(request: api_projects_projects_pb.AddAccountRequest, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
-    public addAccount(request: api_projects_projects_pb.AddAccountRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
-    public addAccount(request: api_projects_projects_pb.AddAccountRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: api_projects_projects_pb.AddAccountResponse) => void): grpc.ClientUnaryCall;
 }

@@ -5,28 +5,6 @@ var grpc = require('@grpc/grpc-js');
 var api_projects_projects_pb = require('../../api/projects/projects_pb.js');
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
-function serialize_api_projects_AddAccountRequest(arg) {
-  if (!(arg instanceof api_projects_projects_pb.AddAccountRequest)) {
-    throw new Error('Expected argument of type api.projects.AddAccountRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_api_projects_AddAccountRequest(buffer_arg) {
-  return api_projects_projects_pb.AddAccountRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_api_projects_AddAccountResponse(arg) {
-  if (!(arg instanceof api_projects_projects_pb.AddAccountResponse)) {
-    throw new Error('Expected argument of type api.projects.AddAccountResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_api_projects_AddAccountResponse(buffer_arg) {
-  return api_projects_projects_pb.AddAccountResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_api_projects_CreateRequest(arg) {
   if (!(arg instanceof api_projects_projects_pb.CreateRequest)) {
     throw new Error('Expected argument of type api.projects.CreateRequest');
@@ -160,17 +138,6 @@ var ProjectsService = exports.ProjectsService = {
     requestDeserialize: deserialize_api_projects_InviteRequest,
     responseSerialize: serialize_api_projects_InviteResponse,
     responseDeserialize: deserialize_api_projects_InviteResponse,
-  },
-  addAccount: {
-    path: '/api.projects.Projects/AddAccount',
-    requestStream: false,
-    responseStream: false,
-    requestType: api_projects_projects_pb.AddAccountRequest,
-    responseType: api_projects_projects_pb.AddAccountResponse,
-    requestSerialize: serialize_api_projects_AddAccountRequest,
-    requestDeserialize: deserialize_api_projects_AddAccountRequest,
-    responseSerialize: serialize_api_projects_AddAccountResponse,
-    responseDeserialize: deserialize_api_projects_AddAccountResponse,
   },
 };
 

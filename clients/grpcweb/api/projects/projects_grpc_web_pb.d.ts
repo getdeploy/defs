@@ -3,8 +3,6 @@ import * as grpcWeb from 'grpc-web';
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
 
 import {
-  AddAccountRequest,
-  AddAccountResponse,
   CreateRequest,
   CreateResponse,
   GetRequest,
@@ -47,13 +45,6 @@ export class ProjectsClient {
                response: InviteResponse) => void
   ): grpcWeb.ClientReadableStream<InviteResponse>;
 
-  addAccount(
-    request: AddAccountRequest,
-    metadata: grpcWeb.Metadata | undefined,
-    callback: (err: grpcWeb.Error,
-               response: AddAccountResponse) => void
-  ): grpcWeb.ClientReadableStream<AddAccountResponse>;
-
 }
 
 export class ProjectsPromiseClient {
@@ -80,11 +71,6 @@ export class ProjectsPromiseClient {
     request: InviteRequest,
     metadata?: grpcWeb.Metadata
   ): Promise<InviteResponse>;
-
-  addAccount(
-    request: AddAccountRequest,
-    metadata?: grpcWeb.Metadata
-  ): Promise<AddAccountResponse>;
 
 }
 
