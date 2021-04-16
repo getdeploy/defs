@@ -1,0 +1,243 @@
+syntax = "proto3";
+
+package api.services;
+
+option go_package = "github.com/getdeply/defs/api/services";
+
+import "google/protobuf/timestamp.proto";
+
+enum Region {
+  REGION_UNSPECIFIED = 0;
+  REGION_WEST_EUROPE = 1;
+  REGION_CENTRAL_USA = 2;
+  REGION_EAST_ASIA = 3;
+}
+
+enum DeploymentType {
+  DEPLOYMENT_TYPE_UNSPECIFIED = 0;
+  DEPLOYMENT_TYPE_MANUAL = 1;
+  DEPLOYMENT_TYPE_GITHUB = 2;
+}
+
+enum PortType {
+  PORT_TYPE_UNSPECIFIED = 0;
+  PORT_TYPE_TCP = 1;
+  PORT_TYPE_HTTP = 2;
+  PORT_TYPE_HTTPS = 3;
+  PORT_TYPE_GRPC = 4;
+  PORT_TYPE_GRAPHQL = 5;
+}
+
+enum InstanceStatus {
+  INSTANCE_STATUS_UNSPECIFIED = 0;
+  INSTANCE_STATUS_PENDING = 1;
+  INSTANCE_STATUS_RUNNING = 2;
+  INSTANCE_STATUS_SUCCEEDED = 3;
+  INSTANCE_STATUS_FAILED = 4;
+}
+
+enum BuildStatus {
+  BUILD_STATUS_UNSPECIFIED = 0;
+  BUILD_STATUS_PENDING = 1;
+  BUILD_STATUS_RUNNING = 2;
+  BUILD_STATUS_SUCCEEDED = 3;
+  BUILD_STATUS_FAILED = 4;
+}
+
+message Environment {
+  string id = 1;
+  // User friendly name
+  string name = 2;
+  // A DNS addressable version of the environment
+  string dns_safe_name = 3;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message Service {
+  string id = 1;
+  string account_id = 12;
+  // Which project it belongs to
+  string project_id = 2;
+  // How the service is referenced throughough the UI
+  string name = 3;
+  // A DNS addressable version of the service name
+  string dns_safe_name = 4;
+  // One or more regions to deploy to
+  repeated Region regions = 5;
+  // Link to Github repo
+  GithubInfo github_info = 6;
+  // Port, Type/name mapping of ports
+  map<string, PortType> ports = 7;
+  // ENV variables
+  map<string, string> environment_variables = 8;
+  // How many instances per region to deploy
+  int32 replicas_per_region = 9;
+  // In milli, i.e 250 is 0.25 of a CPU
+  int32 cpu = 10;
+  // In MB, 256 = 256MB
+  int32 memory = 11;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message GithubInfo {
+  // Github ID
+  int64 github_repo_id = 1;
+  // Full github style url i.e (myusername/repo)
+  string full_name = 2;
+  // This allows for some automatic pushing to staging environments
+  // or checking if a pull request is into the main branch
+  string main_branch = 3;
+}
+
+message Version {
+  string id = 1;
+  string service_id = 2;
+  // most likely a semvar like tag "v0.1.2"
+  string version = 3;
+  string sha = 4;
+  string commit_message = 5;
+  string author_username = 6;
+  string author_email = 7;
+  // If they have a deply account, we will link here
+  string author_account_id = 8;
+  // Image of build container, either provided by user
+  // or built by Deply
+  string container_url = 9;
+  BuildStatus build_status = 10;
+  // Is thie version available for deployment
+  // it may not be because of a build error or it's
+  // stil being built
+  bool available = 11;
+  // Timestamps
+  google.protobuf.Timestamp created_at = 1000;
+}
+
+// ServiceStatus is a top level object encapsulating a services overall status
+// accross versions and environments
+message ServiceStatus {
+  repeated EnvironmentStatus environments = 1;
+}
+
+message EnvironmentStatus {
+  Environment environment = 1;
+  repeated EnvironmentVersionStatus versions = 2;
+}
+
+message EnvironmentVersionStatus {
+  int32 traffic_percentage = 2;
+  repeated Instance instances = 3;
+}
+
+// Analogous to a Kubernetes Pod
+message Instance {
+  string id = 1;
+  InstanceStatus status = 2;
+}
+
+//
+// RPC messages
+//
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  Service service = 1;
+  ServiceStatus status = 2;
+}
+
+message CreateRequest {
+  string project_id = 1;
+  string account_id = 11;
+  // How the service is referenced throughough the UI
+  string name = 2;
+  // A DNS addressable version of the service name
+  string dns_safe_name = 3;
+  // One or more regions to deploy to
+  repeated Region regions = 4;
+  // Link to Github repo
+  int64 github_repo_id = 5;
+  // Port, Type/name mapping of ports
+  map<string, PortType> ports = 6;
+  // ENV variables
+  map<string, string> environment_variables = 7;
+  // How many instances per region to deploy
+  int32 replicas_per_region = 8;
+  // In milli, i.e 250 is 0.25 of a CPU
+  int32 cpu = 9;
+  // In MB, 256 = 256MB
+  int32 memory = 10;
+}
+
+message CreateResponse {
+  Service service = 1;
+}
+
+message ListRequest {
+  string project_id = 1;
+}
+
+message ListResponse {
+  repeated Service services = 1;
+}
+
+message ListVersionsRequest {
+  string service_id = 1;
+}
+
+message ListVersionsResponse {
+  repeated Version versions = 1;
+}
+
+message GetBuildLogRequest {
+  string version_id = 1;
+}
+
+message GetBuildLogResponse {
+  string log = 1;
+  BuildStatus status = 2;
+  bool available = 3;
+}
+
+message ListGithubReposRequest {}
+
+message GithubRepo {
+  int64 id = 1;
+  string full_name = 2;
+  bool private = 3;
+  google.protobuf.Timestamp last_push = 4;
+  google.protobuf.Timestamp created_at = 1000;
+  google.protobuf.Timestamp updated_at = 1001;
+}
+
+message ListGithubReposResponse {
+  repeated GithubRepo repos = 1;
+}
+
+// Comes from Github webhook via API service
+message CommitPushed {
+  // We know this as the webhook url contains it
+  string service_id = 1;
+  // int64 of Githubs repo ID
+  int64 repo_id = 2;
+  // the github "path" i.e arbarlow/dotfiles
+  string repo_name = 3;
+  // e.g refs/heads/main
+  string ref = 4;
+  // The SHA of the most recent commit on ref after the push.
+  string head = 5;
+}
+
+service Services {
+  rpc Get(GetRequest) returns (GetResponse);
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc List(ListRequest) returns (ListResponse);
+  rpc ListVersions(ListVersionsRequest) returns (ListVersionsResponse);
+  rpc GetBuildLog(GetBuildLogRequest) returns (stream GetBuildLogResponse);
+  rpc ListGithubRepos(ListGithubReposRequest) returns (ListGithubReposResponse);
+}
